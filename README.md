@@ -1,2 +1,4 @@
+# Crosster
+Cross stitch helper
+
 Diploma work by Oleksa Romanchuk
-Crosster app, cross stitch helper
