@@ -3,6 +3,7 @@
 #include <QIcon>
 
 #include "OpenAndroidGallery.h"
+#include "celltablemodel.h"
 
 int main(int argc, char *argv[])
 {
@@ -12,6 +13,7 @@ int main(int argc, char *argv[])
     //app.setWindowIcon(QIcon(":/letter_S_red-32.png")); //not working
 
     qmlRegisterType<OpenAndroidGallery>("Apadana.OpenAndroidGallery", 1, 0, "OpenAndroidGallery");
+    qmlRegisterType<CellTableModel>("CellTableModel", 1, 0, "CellTableModel");
 
     QQmlApplicationEngine engine;
     const QUrl url(QStringLiteral("qrc:/main.qml"));

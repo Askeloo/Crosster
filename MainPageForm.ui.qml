@@ -17,6 +17,7 @@ Page {
         id: roundButton
         x: parent.width - 50
         y: parent.height - 50
+        z: 7
         text: "+"
         font.pointSize: 12
         font.family: "FontAwesome"
@@ -30,7 +31,7 @@ Page {
         sourceSize.width: 1024
         sourceSize.height: 768
         fillMode: Image.PreserveAspectFit
-        source: "qrc:/qtquickplugin/images/template_image.png"
+        source: "qrc:/qtquickplugin/images/template_image.png"  //FIXME
     }
 }
 

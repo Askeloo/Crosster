@@ -13,6 +13,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    celltablemodel.cpp \
         main.cpp \
     OpenAndroidGallery.cpp
 
@@ -44,4 +45,5 @@ DISTFILES += \
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
 
 HEADERS += \
-    OpenAndroidGallery.h
+    OpenAndroidGallery.h \
+    celltablemodel.h

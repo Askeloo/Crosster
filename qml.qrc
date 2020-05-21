@@ -7,5 +7,6 @@
         <file>letter_S_red-256.png</file>
         <file>PageBackground.qml</file>
         <file>letter_S_red-32.png</file>
+        <file>GridBoard.qml</file>
     </qresource>
 </RCC>

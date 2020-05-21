@@ -6,10 +6,6 @@ import QtQuick.Controls 2.5
 ApplicationWindow {
     id: rootWindow
     visible: true
-    width: 800
-    height: 600
-    minimumWidth: 700
-    minimumHeight: 400
     title: qsTr("Hello World1")
 
     Image {
