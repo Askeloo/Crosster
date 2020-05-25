@@ -6,7 +6,7 @@ import QtQuick.Dialogs 1.2
 import Apadana.OpenAndroidGallery 1.0
 
 MainPageForm {
-    anchors.fill: parent
+    //anchors.fill: parent
 
     ToolButton {
         id: menuButton
@@ -50,6 +50,7 @@ MainPageForm {
     }
 
     GridBoard {
+        id: gb
         anchors.fill: parent
     }
 
@@ -61,6 +62,11 @@ MainPageForm {
     roundButton.onClicked:
     {
         openG.openGallery()
+    }
+
+    switchBut.onPressed:  {
+        gb.editMode = !gb.editMode
+        console.debug("kek")
     }
 
 

@@ -7,6 +7,7 @@
 CellTableModel::CellTableModel(QObject *parent)
     : QAbstractTableModel(parent)
 {
+    m_currentState.resize(width * height);
 }
 
 int CellTableModel::rowCount(const QModelIndex &parent) const

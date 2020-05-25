@@ -8,10 +8,12 @@ import CellTableModel 1.0
 Item {
     id: name
 
-    anchors.topMargin: 50
+    anchors.topMargin: 40
     anchors.bottomMargin: 20
     anchors.leftMargin: 20
     anchors.rightMargin:  20
+
+    property bool editMode: false
 
     Rectangle {
         id: background
@@ -21,158 +23,485 @@ Item {
 
     PinchArea {
         id: p
+        anchors.fill: parent //тут f
+        enabled: !editMode
+        //pinch.target: i
+        pinch.maximumScale: 2
+        pinch.minimumScale: width / tblV.contentWidth
+
+        property real initialWidth
+        property real initialHeight
+
+        property real prevScale : 1.0
+
+        onPinchStarted: {
+            initialWidth = f.contentWidth
+            initialHeight = f.contentHeight
+            console.debug("PinchStart___" + zoomScale.xScale + "___" + zoomScale.yScale)
+
+            //f.interactive=false;
+
+        }
+
+        onPinchUpdated: {   //FIXME
+
+            f.contentX += pinch.previousCenter.x - pinch.center.x
+            f.contentY += pinch.previousCenter.y - pinch.center.y
+
+            var diffscale = pinch.scale - pinch.previousScale;
+            var newscale = prevScale + diffscale;
+            if (newscale >= width / tblV.contentWidth && newscale <= 2.0)
+            {
+                prevScale += diffscale;
+                zoomScale.xScale = prevScale;
+                zoomScale.yScale = prevScale;
+
+                //zoomScale.origin.x = iContainer.width / 2;
+                //zoomScale.origin.y = iContainer.height / 2;
+
+                //console.debug("___" + zoomScale.xScale + "___" + zoomScale.yScale)
+            }
+
+            //f.resizeContent(initialWidth * pinch.scale, initialHeight * pinch.scale, pinch.center)
+        }
+
+        onPinchFinished: {
+            //prevScale = pinch.scale
+            //console.debug("PinchEnd")
+            //f.interactive=true;
+            //f.returnToBounds();
+        }
+        Flickable {
+            id: f
+            anchors.fill: parent
+            //boundsBehavior: Flickable.StopAtBounds
+            contentHeight: tblV.contentHeight
+            contentWidth: tblV.contentWidth
+            clip: true
+            interactive: false
+
+            contentX: (contentWidth - width) / 2;
+            contentY: (contentHeight - height) / 2;
+
+            Item {
+                id: iContainer
+                width: tblV.contentWidth
+                height: tblV.contentHeight
+
+
+
+                TableView {
+                    id: tblV
+                    z: 5
+                    //anchors.fill: parent
+
+                    implicitWidth:  tblV.contentWidth
+                    implicitHeight:  tblV.contentHeight
+                    //anchors.fill: parent
+                    //x: (width)
+                    //y: (height)
+                    rowSpacing: 0
+                    columnSpacing: 0
+                    //scale: p.width / contentWidth  //тут
+
+                    interactive: false
+
+                    delegate: Rectangle {
+                        id: cell
+                        implicitWidth: 15
+                        implicitHeight: 15
+
+                        color: model.value ? "red" : "lightgreen"
+
+                        MouseArea {
+                            //z: 4
+                            anchors.fill: parent
+                            enabled: editMode
+                            onPressed:  model.value = !model.value
+                        }
+                    }
+
+                    model: CellTableModel {
+                        id: cellModel
+                    }
+
+                    clip: true
+
+                    Component.onCompleted: {
+                        zoomScale.origin.x = iContainer.width / 2;
+                        zoomScale.origin.y = iContainer.height / 2;
+                        p.prevScale = p.width / tblV.contentWidth;
+                        zoomScale.xScale = p.prevScale;
+                        zoomScale.yScale = p.prevScale;
+                    }
+
+                    Canvas {
+                        id: lines
+                        z : 7
+                        anchors.fill: parent
+                        property real wgrid: 15
+                        onPaint: {
+                            var ctx = getContext("2d")
+                            ctx.lineWidth = 1
+                            ctx.strokeStyle = "black"
+                            ctx.beginPath()
+
+//                            var ctx2 = getContext("2d")
+//                            ctx2.lineWidth = 0.4
+//                            ctx2.strokeStyle = "grey"
+//                            ctx2.beginPath()
+                            var nrows = (height/wgrid);
+                            for(var i=0; i < nrows+1; i++){
+                                if(i%10 === 0)
+                                {
+                                    var ki = wgrid*i - 0.5;
+                                    ctx.moveTo(0, ki);
+                                    ctx.lineTo(width, ki);
+                                }
+//                                else
+//                                {
+//                                    var ki2 = wgrid*i - 0.2;
+//                                    ctx2.moveTo(0, ki2);
+//                                    ctx2.lineTo(width, ki2);
+//                                }
+                            }
+
+                            var ncols = (width/wgrid);
+                            for(var j=0; j < ncols+1; j++){
+                                if(j%10 === 0)
+                                {
+                                    var kj = wgrid*j - 0.5;
+                                    ctx.moveTo(kj, 0);
+                                    ctx.lineTo(kj, height);
+                                }
+//                                else
+//                                {
+//                                    var kj2 = wgrid*j - 0.2;
+//                                    ctx2.moveTo(kj2, 0);
+//                                    ctx2.lineTo(kj2, height);
+//                                }
+                            }
+                            ctx.closePath()
+                            ctx.stroke()
+                        }
+
+                    }
+
+                    Canvas {
+                        id: lines2
+                        z : 6
+                        anchors.fill: parent
+                        property real wgrid: 15
+                        onPaint: {
+                            var ctx2 = getContext("2d")
+                            ctx2.lineWidth = 0.4
+                            ctx2.strokeStyle = "grey"
+                            ctx2.beginPath()
+                            var nrows = (height/wgrid);
+                            for(var i=0; i < nrows+1; i++){
+                                if(i%10 !== 0)
+                                {
+                                    var ki2 = wgrid*i - 0.2;
+                                    ctx2.moveTo(0, ki2);
+                                    ctx2.lineTo(width, ki2);
+                                }
+                            }
+
+                            var ncols = (width/wgrid);
+                            for(var j=0; j < ncols+1; j++){
+                                if(j%10 !== 0)
+                                {
+                                    var kj2 = wgrid*j - 0.2;
+                                    ctx2.moveTo(kj2, 0);
+                                    ctx2.lineTo(kj2, height);
+                                }
+                            }
+                            ctx2.closePath()
+                            ctx2.stroke()
+                        }
+                    }
+                }
+
+
+                transform: [
+                    Scale {
+                        id: zoomScale
+
+                        //origin.x : iContainer.width / 2;
+                        //origin.y : iContainer.height / 2;
+
+                        //origin.x: p.prevScale * iContainer.width / 2
+                        //origin.y: p.prevScale * iContainer.height / 2
+                    },
+                    Translate {
+                        id: zoomTranslate
+                    }
+
+                ]
+
+
+            }
+        }
+
+    }
+
+
+}
+
+
+/*
+Item {
+    id: name
+
+    anchors.topMargin: 50
+    anchors.bottomMargin: 20
+    anchors.leftMargin: 20
+    anchors.rightMargin:  20
+
+    property bool editMode: false
+
+    Rectangle {
+        id: background
+        color: "lightgrey"
+        anchors.fill: parent
+    }
+//   Flickable {
+//        anchors.fill: parent
+//        interactive: !editMode
+
+//        contentHeight: tblV.height;
+//        contentWidth: tblV.width;
+
+    PinchArea {
+        id: p
         //z: 3
+        //width: 5000
+        //height: 5000
+        //anchors.centerIn: parent
         anchors.fill: parent
         //enabled: i.status === Image.Ready
-        pinch.target: tblV.contentItem
+        enabled: !editMode
+        pinch.target: grid
         pinch.maximumScale: 2
-        pinch.minimumScale: 0.3 //width / tblV.contentWidth
-        //scale: pinch.minimumScale
+        pinch.minimumScale: width / tblV.contentWidth // 1
+        pinch.dragAxis: Pinch.XAndYAxis        
+
+        property real initialWidth
+        property real initialHeight
+
+        //scale: 0.3
         onPinchStarted: {
             console.debug("PinchStart")
+            initialWidth = tblV.contentWidth
+            initialHeight = tblV.contentHeight
             //tblV.interactive=false;
             //pinch.accepted = true
-            console.debug("w_____" + width)
-            console.debug("cw____" + tblV.contentWidth)
-            console.debug("h_____" + height)
-            console.debug("ch____" + tblV.contentHeight)
-            console.debug("minimumScale__" + width / tblV.contentWidth)
         }
 
         onPinchUpdated: {
+            tblV.resizeContent(initialWidth * pinch.scale, initialHeight * pinch.scale, pinch.center)
             //tblV.contentItem.scale -= pinch.previousScale - pinch.scale;
-            tblV.contentX += pinch.previousCenter.x - pinch.center.x
-            tblV.contentY += pinch.previousCenter.y - pinch.center.y
+            //tblV.contentX += pinch.previousCenter.x - pinch.center.x
+           // tblV.contentY += pinch.previousCenter.y - pinch.center.y
+            //tblV.contentItem.positionChanged(pinch);
+
+//            console.debug("_________start__________")
+//            console.debug("cw____" + tblV.contentWidth)
+//            console.debug("ch____" + tblV.contentHeight)
+//            console.debug("w____" + tblV.width)
+//            console.debug("h____" + tblV.height)
+//            console.debug("pw____" + width)
+//            console.debug("ph____" + height)
+//            console.debug("pcentr____" + pinch.center)
+//            console.debug("_________end__________")
+
         }
 
         onPinchFinished: {
             console.debug("PinchEnd")
             //tblV.interactive=true;
-            //tblV.returnToBounds();
+            tblV.returnToBounds();
         }
 
+        Item {
+            id: grid
 
-        TableView {
-            id: tblV
-            //z: 2
-            anchors.fill: parent
+            implicitWidth: tblV.contentWidth
+            implicitHeight: tblV.contentHeight
+            //anchors.topMargin: 50
+            //anchors.bottomMargin: 20
+            //anchors.leftMargin: 20
+            //anchors.rightMargin:  20
 
-            rowSpacing: 1
-            columnSpacing: 1
+            onScaleChanged: console.debug("scale changed")
 
-            interactive: false
 
-            delegate: Rectangle {
-                id: cell
-                implicitWidth: 15
-                implicitHeight: 15
+            //x: p.x - (width / 2)
+            //y: p.y - (height / 2)
 
-                color: model.value ? "red" : "blue"
+            Canvas {
+                id: lines
+                anchors.fill: parent
+                property int wgrid: 16
+                onPaint: {
+                    var ctx = getContext("2d")
+                    ctx.lineWidth = 1
+                    ctx.strokeStyle = "black"
+                    ctx.beginPath()
+                    var nrows = (height/wgrid);
+                    for(var i=0; i < nrows+1; i++){
+                        if(i%10 === 0)
+                        {
+                            var ki = wgrid*i - 0.5;
+                            ctx.moveTo(0, ki);
+                            ctx.lineTo(width, ki);
+                        }
+                    }
 
-                MouseArea {
-                    //z: 4
-                    anchors.fill: parent
-                    onClicked: model.value = !model.value
+                    var ncols = (width/wgrid);
+                    for(var j=0; j < ncols+1; j++){
+                        if(j%10 === 0)
+                        {
+                            var kj = wgrid*j - 0.5;
+                            ctx.moveTo(kj, 0);
+                            ctx.lineTo(kj, height);
+                        }
+                    }
+                    ctx.closePath()
+                    ctx.stroke()
                 }
             }
 
-            model: CellTableModel {
-                id: cellModel
-            }
 
-            //contentX: (contentWidth - width) / 2;
-            //contentY: (contentHeight - height) / 2;
+                TableView {
+                    id: tblV
+                    //z: 2
+                    //anchors.fill: parent
 
-            //Scaling
-            //boundsBehavior: Flickable.StopAtBounds
-            clip: true
-            //scale: 1
+                    implicitWidth: tblV.contentWidth
+                    implicitHeight: tblV.contentHeight
+                    //anchors.fill: parent
+                    //x: (width)
+                    //y: (height)
+                    //ena
+                    rowSpacing: 1
+                    columnSpacing: 1
+                    //scale: p.width / contentWidth  //тут
 
-            property bool fitToScreenActive: true
+                    interactive: false
 
-            property real minZoom: 0.1;
-            property real maxZoom: 2
+                    delegate: Rectangle {
+                        id: cell
+                        implicitWidth: 15
+                        implicitHeight: 15
 
-            property real zoomStep: 0.1
+                        color: model.value ? "red" : "lightgreen"
 
-            property real prevScale: 1.0;
-            /*
-            onWidthChanged: {
-                if (fitToScreenActive)
-                    fitToScreen();
-            }
-            onHeightChanged: {
-                if (fitToScreenActive)
-                    fitToScreen();
-            }
-            */
-            smooth: moving
-            transformOrigin: Item.Center
+                        MouseArea {
+                            //z: 4
+                            anchors.fill: parent
+                            enabled: editMode
+                            onPressed:  model.value = !model.value
+                        }
+                    }
 
-            onScaleChanged: {/*
-                console.debug("_________start__________")
-                console.debug("Scale______" + scale)
+                    model: CellTableModel {
+                        id: cellModel
+                    }
 
-                if ((contentWidth * scale) > width) {
-                    var xoff = (width / 2 + contentX) * scale / prevScale;
-                    contentX = xoff - width / 2
+                    //contentX: (contentWidth - width) / 2;
+                    //contentY: (contentHeight - height) / 2;
+
+                    //Scaling
+                    //boundsBehavior: Flickable.StopAtBounds
+                    //boundsMovement: Flickable.StopAtBounds
+                    clip: true
+                    //scale: 1
+
+
+
+
+                    property bool fitToScreenActive: true
+
+                    property real minZoom: 0.1;
+                    property real maxZoom: 2
+
+                    property real zoomStep: 0.1
+
+                    property real prevScale: 1.0;
+
+//                    onWidthChanged: {
+//                        if (fitToScreenActive)
+//                            fitToScreen();
+//                    }
+//                    onHeightChanged: {
+//                        if (fitToScreenActive)
+//                            fitToScreen();
+//                    }
+
+                    //smooth: moving
+                    //transformOrigin: Item.Center
+
+                    onScaleChanged: {
+                    }
+
+                    function fitToScreen() {
+                        var s = Math.min(width / contentWidth, height / contentHeight, 1)
+                        console.debug("w_____" + width)
+                        console.debug("cw____" + contentWidth)
+                        console.debug("h_____" + height)
+                        console.debug("ch____" + contentHeight)
+                        console.debug("ssss__" + s)
+                        scale = s;
+                        minZoom = s;
+                        prevScale = scale
+                        fitToScreenActive=true;
+                        returnToBounds();
+                    }
+
+                    //ScrollIndicator.vertical: ScrollIndicator { }
+                    //ScrollIndicator.horizontal: ScrollIndicator { }
                 }
-                if ((contentHeight * scale) > height) {
-                    var yoff = (height / 2 + contentY) * scale / prevScale;
-                    contentY = yoff - height / 2
-                }
-                prevScale=scale;
-                //console.debug("width_____" + contentWidth)
-                //console.debug("height____" + contentHeight)
-                console.debug("width___" + width)
-                console.debug("height__" + height)
-                console.debug("_______________")
-
-                console.debug("prevScale__" + prevScale)
-                console.debug("contentX__" + contentX)
-                console.debug("contentY__" + contentY)
-                console.debug("xoff__" + xoff)
-                console.debug("yoff__" + yoff)
-                console.debug("_________end__________")
-                */
             }
 
-            function fitToScreen() {
-                var s = Math.min(width / contentWidth, height / contentHeight, 1)
-                console.debug("w_____" + width)
-                console.debug("cw____" + contentWidth)
-                console.debug("h_____" + height)
-                console.debug("ch____" + contentHeight)
-                console.debug("ssss__" + s)
-                scale = s;
-                minZoom = s;
-                prevScale = scale
-                fitToScreenActive=true;
-                returnToBounds();
-            }
 
-            //ScrollIndicator.vertical: ScrollIndicator { }
-            //ScrollIndicator.horizontal: ScrollIndicator { }
         }
 
+    Component.onCompleted: console.debug("completed")//f.fitToScreen();
 
-    }
+
+    //}
 }
-
-
+*/
+//---------------------------------------------------------------------
 /*
-Page {
-    anchors.fill: parent
+Item {
+    id: name
+
+    anchors.topMargin: 40
+    anchors.bottomMargin: 20
+    anchors.leftMargin: 20
+    anchors.rightMargin:  20
+
+    property bool editMode: false
+
+    Rectangle {
+        id: background
+        color: "lightgrey"
+        anchors.fill: parent
+    }
+
     Flickable {
         id: f
         anchors.fill: parent
-        boundsBehavior: Flickable.StopAtBounds
+        //boundsBehavior: Flickable.StopAtBounds
         contentHeight: iContainer.height;
         contentWidth: iContainer.width;
         clip: true
+        interactive: false
 
-        onContentXChanged: console.debug("CX"+contentX)
-        onContentYChanged: console.debug("CY"+contentY)
+//        onContentXChanged: console.debug("CX"+contentX)
+//        onContentYChanged: console.debug("CY"+contentY)
 
         //Behavior on contentY { NumberAnimation {} }
         //Behavior on contentX { NumberAnimation {} }
@@ -193,104 +522,204 @@ Page {
                 fitToScreen();
         }
 
+        PinchArea {
+            id: p
+            anchors.fill: parent //тут f
+            //enabled: i.status === Image.Ready
+            //pinch.target: i
+            pinch.maximumScale: 2
+            pinch.minimumScale: width / tblV.contentWidth
+
+            property real initialWidth
+            property real initialHeight
+
+            onPinchStarted: {
+                initialWidth = f.contentWidth
+                initialHeight = f.contentHeight
+                //console.debug("PinchStart")
+                //f.interactive=false;
+
+            }
+
+            onPinchUpdated: {
+                f.contentX += pinch.previousCenter.x - pinch.center.x
+                f.contentY += pinch.previousCenter.y - pinch.center.y
+
+                zoomScale.origin.x = pinch.center.x;
+                zoomScale.origin.y = pinch.center.y;
+                zoomScale.xScale = pinch.scale;
+                zoomScale.yScale = pinch.scale;
+                //f.resizeContent(initialWidth * pinch.scale, initialHeight * pinch.scale, pinch.center)
+
+                console.debug("PW___" + p.width)
+                console.debug("PH___" + p.height)
+            }
+
+            onPinchFinished: {
+                //console.debug("PinchEnd")
+                //f.interactive=true;
+                //f.returnToBounds();
+            }
+
         Item {
             id: iContainer
-            width: Math.max(i.width * i.scale, width)
-            height: Math.max(i.height * i.scale, height)
+            width: Math.max(i.width * i.scale, f.width)
+            height: Math.max(i.height * i.scale, f.height)
 
-            Image {
+            transform: [
+                Scale {
+                    id: zoomScale
+                },
+                Translate {
+                    id: zoomTranslate
+                }
+
+            ]
+
+            Item {
                 id: i
 
                 property real prevScale: 1.0;
 
-                asynchronous: true
-                cache: false
-                smooth: moving
-                source: "test.jpg"
-                anchors.centerIn: parent
-                fillMode: Image.PreserveAspectFit
-                onWidthChanged: console.debug(width)
-                onHeightChanged: console.debug(height)
-                transformOrigin: Item.Center
+                implicitWidth: tblV.contentWidth
+                implicitHeight: tblV.contentHeight
+
+
+                //anchors.topMargin: 50
+                //anchors.bottomMargin: 20
+                //anchors.leftMargin: 20
+                //anchors.rightMargin:  20
+
+                //x: p.x - (width / 2)
+                //y: p.y - (height / 2)
+
+//                Canvas {
+//                    id: lines
+//                    anchors.fill: parent
+//                    property int wgrid: 16
+//                    onPaint: {
+//                        var ctx = getContext("2d")
+//                        ctx.lineWidth = 1
+//                        ctx.strokeStyle = "black"
+//                        ctx.beginPath()
+
+////                        var ctx2 = getContext("2d")
+////                        ctx2.lineWidth = 0.4
+////                        ctx2.strokeStyle = "grey"
+////                        ctx2.beginPath()
+//                        var nrows = (height/wgrid);
+//                        for(var i=0; i < nrows+1; i++){
+//                            if(i%10 === 0)
+//                            {
+//                                var ki = wgrid*i - 0.5;
+//                                ctx.moveTo(0, ki);
+//                                ctx.lineTo(width, ki);
+//                            }
+////                            else
+////                            {
+////                                var ki2 = wgrid*i - 0.2;
+////                                ctx2.moveTo(0, ki2);
+////                                ctx2.lineTo(width, ki2);
+////                            }
+//                        }
+
+//                        var ncols = (width/wgrid);
+//                        for(var j=0; j < ncols+1; j++){
+//                            if(j%10 === 0)
+//                            {
+//                                var kj = wgrid*j - 0.5;
+//                                ctx.moveTo(kj, 0);
+//                                ctx.lineTo(kj, height);
+//                            }
+////                            else
+////                            {
+////                                var kj2 = wgrid*j - 0.2;
+////                                ctx2.moveTo(0, kj2);
+////                                ctx2.lineTo(width, kj2);
+////                            }
+//                        }
+//                        ctx.closePath()
+//                        ctx.stroke()
+//                    }
+//                }
+
+
+                TableView {
+                    id: tblV
+                    //z: 2
+                    //anchors.fill: parent
+
+                    //implicitWidth:  tblV.contentWidth
+                    //implicitHeight:  tblV.contentHeight
+                    anchors.fill: parent
+                    //x: (width)
+                    //y: (height)
+                    rowSpacing: 1
+                    columnSpacing: 1
+                    //scale: p.width / contentWidth  //тут
+
+                    interactive: false
+
+                    delegate: Rectangle {
+                        id: cell
+                        implicitWidth: 15
+                        implicitHeight: 15
+
+                        color: model.value ? "red" : "lightgreen"
+
+                        MouseArea {
+                            //z: 4
+                            anchors.fill: parent
+                            enabled: editMode
+                            onPressed:  model.value = !model.value
+                        }
+                    }
+
+                    model: CellTableModel {
+                        id: cellModel
+                    }
+
+                    clip: true
+
+                }
                 onScaleChanged: {
-                    console.debug(scale)
-                    if ((width * scale) > width) {
-                        var xoff = (width / 2 + contentX) * scale / prevScale;
-                        contentX = xoff - width / 2
-                    }
-                    if ((height * scale) > height) {
-                        var yoff = (height / 2 + contentY) * scale / prevScale;
-                        contentY = yoff - height / 2
-                    }
-                    prevScale=scale;
+                    //console.debug("Scale__" + scale)
+//                    if ((width * scale) > f.width) {
+//                        var xoff = (f.width / 2 + f.contentX) * scale / prevScale;
+//                        f.contentX = xoff - f.width / 2
+//                    }
+//                    if ((height * scale) > f.height) {
+//                        var yoff = (f.height / 2 + f.contentY) * scale / prevScale;
+//                        f.contentY = yoff - f.height / 2
+//                    }
+//                    prevScale=scale;
                 }
-                onStatusChanged: {
-                    if (status===Image.Ready) {
-                        fitToScreen();
-                    }
-                }
-                //Behavior on scale { ScaleAnimator { } }
+
             }
         }
+
+        }
         function fitToScreen() {
-            var s = Math.min(width / i.width, height / i.height, 1)
+            var s = Math.min(f.width / i.width, f.height / i.height, 1)
             i.scale = s;
-            minZoom = s;
+            f.minZoom = s;
             i.prevScale = scale
             fitToScreenActive=true;
-            returnToBounds();
-        }
-        function zoomIn() {
-            if (scale<maxZoom)
-                i.scale*=(1.0+zoomStep)
-            returnToBounds();
-            fitToScreenActive=false;
-            returnToBounds();
-        }
-        function zoomOut() {
-            if (scale>minZoom)
-                i.scale*=(1.0-zoomStep)
-            else
-                i.scale=minZoom;
-            returnToBounds();
-            fitToScreenActive=false;
-            returnToBounds();
-        }
-        function zoomFull() {
-            i.scale=1;
-            fitToScreenActive=false;
-            returnToBounds();
+            f.returnToBounds();
         }
 
-
-        ScrollIndicator.vertical: ScrollIndicator { }
-        ScrollIndicator.horizontal: ScrollIndicator { }
+//        ScrollIndicator.vertical: ScrollIndicator { }
+//        ScrollIndicator.horizontal: ScrollIndicator { }
 
     }
 
-    PinchArea {
-        id: p
-        anchors.fill: f
-        enabled: i.status === Image.Ready
-        pinch.target: i
-        pinch.maximumScale: 2
-        pinch.minimumScale: 0.1
-        onPinchStarted: {
-            console.debug("PinchStart")
-            interactive=false;
-        }
 
-        onPinchUpdated: {
-            contentX += pinch.previousCenter.x - pinch.center.x
-            contentY += pinch.previousCenter.y - pinch.center.y
-        }
 
-        onPinchFinished: {
-            console.debug("PinchEnd")
-            interactive=true;
-            returnToBounds();
-        }
-    }
+    Component.onCompleted: f.fitToScreen();
 
 }
+
 */
+
+//---------------------------------------------------------
+

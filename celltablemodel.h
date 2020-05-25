@@ -35,11 +35,11 @@ public:
     Qt::ItemFlags flags(const QModelIndex &index) const override;
 
 private:
-    static constexpr int width = 20;
-    static constexpr int height = 30;
+    static constexpr int width = 80;
+    static constexpr int height = 100;
     static constexpr int size = width * height;
 
-    using StateContainer = std::array<bool, size>;
+    using StateContainer = QVector<bool>;
     StateContainer m_currentState;
 
     static QPoint cellCoordinatesFromIndex(int cellIndex);

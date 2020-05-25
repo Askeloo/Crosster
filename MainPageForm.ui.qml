@@ -5,11 +5,12 @@ Page {
     id: page
     property alias roundButton: roundButton
     property alias image: image
+    property alias switchBut: switchBut
 
     Rectangle {
         id: rectangle
-        width: parent
-        height: parent
+
+        anchors.fill: parent
         color: "#e29414"
     }
 
@@ -31,13 +32,25 @@ Page {
         sourceSize.width: 1024
         sourceSize.height: 768
         fillMode: Image.PreserveAspectFit
-        source: "qrc:/qtquickplugin/images/template_image.png"  //FIXME
+        //source: "qrc:/qtquickplugin/images/template_image.png"
+
+        //FIXME
+    }
+
+    Switch {
+        id: switchBut
+        x: 519
+        text: qsTr("Edit mode")
+        anchors.top: parent.top
+        anchors.topMargin: 5
+        anchors.right: parent.right
+        anchors.rightMargin: 5
     }
 }
 
 /*##^##
 Designer {
-    D{i:0;autoSize:true;height:480;width:640}
+    D{i:0;autoSize:true;height:480;width:640}D{i:4;anchors_y:21}
 }
 ##^##*/
 
