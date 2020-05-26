@@ -4,9 +4,7 @@
         <file>MainPage.qml</file>
         <file>MainPageForm.ui.qml</file>
         <file>fontawesome-webfont.ttf</file>
-        <file>letter_S_red-256.png</file>
         <file>PageBackground.qml</file>
-        <file>letter_S_red-32.png</file>
         <file>GridBoard.qml</file>
     </qresource>
 </RCC>

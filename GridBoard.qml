@@ -107,17 +107,26 @@ Item {
                     interactive: false
 
                     delegate: Rectangle {
-                        id: cell
+                        id: cellRect
                         implicitWidth: 15
                         implicitHeight: 15
 
-                        color: model.value ? "red" : "lightgreen"
+                        color: cell.checked ? "red" : "lightgreen"
+                        //opacity: cell.checked ? 1 : 0.33
 
                         MouseArea {
                             //z: 4
                             anchors.fill: parent
                             enabled: editMode
-                            onPressed:  model.value = !model.value
+                            onPressed:  cell.checked = !cell.checked
+                        }
+
+                        Text {
+                            id: symbol
+                            visible: p.prevScale > 0.5
+                            font.pixelSize: 10
+                            anchors.centerIn: parent
+                            text: cell.symbol
                         }
                     }
 
@@ -190,6 +199,7 @@ Item {
                     Canvas {
                         id: lines2
                         z : 6
+                        visible:  p.prevScale > 0.5
                         anchors.fill: parent
                         property real wgrid: 15
                         onPaint: {

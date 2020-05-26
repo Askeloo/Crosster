@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
     //app.setWindowIcon(QIcon(":/letter_S_red-32.png")); //not working
 
-    qmlRegisterType<OpenAndroidGallery>("Apadana.OpenAndroidGallery", 1, 0, "OpenAndroidGallery");
+    qmlRegisterType<OpenAndroidGallery>("Askelo.OpenAndroidGallery", 1, 0, "OpenAndroidGallery");
     qmlRegisterType<CellTableModel>("CellTableModel", 1, 0, "CellTableModel");
 
     QQmlApplicationEngine engine;
