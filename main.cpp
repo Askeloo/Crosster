@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
 
 
     qmlRegisterType<OpenAndroidGallery>("Askelo.OpenAndroidGallery", 1, 0, "OpenAndroidGallery");
-    qmlRegisterType<CellTableModel>("CellTableModel", 1, 0, "CellTableModel");
+    //qmlRegisterType<CellTableModel>("CellTableModel", 1, 0, "CellTableModel");
 
     GUIManager guiManager;
     QQmlApplicationEngine engine;
