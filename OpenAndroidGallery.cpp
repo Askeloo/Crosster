@@ -46,7 +46,6 @@ void OpenAndroidGallery::openGallery()
     }
 
 
-
     selectedFileName = "#";
     QAndroidJniObject::callStaticMethod<void>("org/qtproject/example/QtAndroidGallery",
                                               "openAnImage",

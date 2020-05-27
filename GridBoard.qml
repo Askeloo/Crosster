@@ -130,9 +130,10 @@ Item {
                         }
                     }
 
-                    model: CellTableModel {
-                        id: cellModel
-                    }
+                    model: guiManager.cell_model
+//                        CellTableModel {
+//                        id: cellModel
+//                    }
 
                     clip: true
 
