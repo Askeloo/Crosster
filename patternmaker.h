@@ -5,6 +5,7 @@
 #include <QColor>
 #include <QVector>
 #include <QFile>
+#include <QImage>
 
 class PatternMaker
 {
@@ -26,6 +27,10 @@ public:
 
 private:
     QVector<FlossData> m_flosses;
+    QImage m_loadedImg;
+    //size
+    unsigned m_max_colors;
+
 };
 
 #endif // PATTERNMAKER_H

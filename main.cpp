@@ -2,6 +2,7 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include <QIcon>
+#include <QQuickStyle>
 
 #include "OpenAndroidGallery.h"
 #include "celltablemodel.h"
@@ -14,13 +15,15 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
     //app.setWindowIcon(QIcon(":/letter_S_red-32.png")); //not working
 
-
     qmlRegisterType<OpenAndroidGallery>("Askelo.OpenAndroidGallery", 1, 0, "OpenAndroidGallery");
+
+    //qmlRegisterType<OpenAndroidGallery>("Askelo.OpenAndroidGallery", 1, 0, "OpenAndroidGallery");
     //qmlRegisterType<CellTableModel>("CellTableModel", 1, 0, "CellTableModel");
 
     GUIManager guiManager;
     QQmlApplicationEngine engine;
 
+    QQuickStyle::setStyle("Material");
     engine.rootContext()->setContextProperty("guiManager", &guiManager);
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));

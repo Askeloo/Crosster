@@ -1,10 +1,14 @@
 <RCC>
     <qresource prefix="/">
-        <file>main.qml</file>
-        <file>MainPage.qml</file>
-        <file>MainPageForm.ui.qml</file>
-        <file>fontawesome-webfont.ttf</file>
-        <file>PageBackground.qml</file>
+        <file>AboutPage.qml</file>
+        <file>CreatePage.qml</file>
         <file>GridBoard.qml</file>
+        <file>main.qml</file>
+        <file>OpenPage.qml</file>
+        <file>PageBackground.qml</file>
+        <file>PatternPage.qml</file>
+        <file>TabPage1.qml</file>
+        <file>TabPage2.qml</file>
+        <file>Font Awesome 5 Free-Solid-900.otf</file>
     </qresource>
 </RCC>
