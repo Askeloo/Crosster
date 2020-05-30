@@ -4,12 +4,9 @@ import QtQuick.Layouts 1.3
 import QtQuick.Dialogs 1.2
 import QtQuick.Controls.Material 2.12
 
-
-import Askelo.OpenAndroidGallery 1.0
-
 Page {
 
-    RoundButton {
+    RoundButton { //replace to Gridboard
         id: roundButton
 
         property bool textIcon: true
@@ -34,6 +31,19 @@ Page {
         id: gb
         anchors.fill: parent
     }
+    Component.onCompleted: appIsBusy = false
+
+//    Loader {
+//        id: background
+
+//        anchors.fill: parent
+//        asynchronous: true
+//        source: "qrc:/GridBoard.qml"
+
+//        //onStatusChanged: console.log("status", status,  "item", item)
+//        onLoaded: appIsBusy = false
+//    }
+
 
 }
 

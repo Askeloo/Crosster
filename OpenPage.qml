@@ -8,4 +8,7 @@ Page {
         anchors.centerIn: parent
         color: "blue"
     }
+
+
+    Component.onCompleted: appIsBusy = false
 }

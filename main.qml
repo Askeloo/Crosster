@@ -26,12 +26,7 @@ ApplicationWindow {
     property string currentTitle: "Open pattern"
 
     property alias stackView: stackView
-
-    FontLoader {
-        id: fontAwesome
-        name: "fontawesome"
-        source: "qrc:/Font Awesome 5 Free-Solid-900.otf"
-    }
+    property bool appIsBusy: false
 
     header: ToolBar {
         Material.foreground: "white"
@@ -134,6 +129,7 @@ ApplicationWindow {
                     drawer.close();
                     if(window.currentTitle !== model.title)
                     {
+                        appIsBusy = true;
                         listView.currentIndex = index;
                         window.prevTitle = window.currentTitle;
                         if(pushOpen)
@@ -146,10 +142,10 @@ ApplicationWindow {
             }
 
             model: ListModel {
-                ListElement { title: "Scheme"; pushOpen: false; source: "qrc:/PatternPage.qml" }
-                ListElement { title: "Create new"; pushOpen: false; source: "qrc:/CreatePage.qml" }
-                ListElement { title: "Open pattern"; pushOpen: false; source: "qrc:/OpenPage.qml" }
-                ListElement { title: "About"; pushOpen: true; source: "qrc:/AboutPage.qml" }
+                ListElement { title: "\uf5ae    Scheme"; pushOpen: false; source: "qrc:/PatternPage.qml" }
+                ListElement { title: "\uf65e    Create new"; pushOpen: false; source: "qrc:/CreatePage.qml" }
+                ListElement { title: "\uf07c    Open pattern"; pushOpen: false; source: "qrc:/OpenPage.qml" }
+                ListElement { title: "\uf05a    About"; pushOpen: true; source: "qrc:/AboutPage.qml" }
             }
         }
     }
@@ -159,6 +155,14 @@ ApplicationWindow {
         anchors.fill: parent
 
         initialItem: "qrc:/OpenPage.qml"
+    }
+
+    BusyIndicator {
+        //FIXME
+        id: busyIndicator
+        z: 11
+        anchors.centerIn: parent
+        running: appIsBusy
     }
 
     Dialog {
@@ -189,6 +193,13 @@ ApplicationWindow {
                 font.pixelSize: 12
             }
         }
+    }
+
+
+    FontLoader {
+        id: fontAwesome
+        name: "fontawesome"
+        source: "qrc:/Font Awesome 5 Free-Solid-900.otf"
     }
 }
 

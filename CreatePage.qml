@@ -39,6 +39,7 @@ Page {
     }
 
     Component.onCompleted: {
+        appIsBusy = false
         openG.openGallery()
     }
 

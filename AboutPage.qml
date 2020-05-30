@@ -13,4 +13,5 @@ Page {
             font.pixelSize: 15
         }
     }
+    Component.onCompleted: appIsBusy = false
 }
