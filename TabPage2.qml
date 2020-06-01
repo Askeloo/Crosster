@@ -5,6 +5,9 @@ Page {
 
     property int fontSize: 20
     property alias btnCreate: btnCreate
+    property alias selWidth: tfWidth.text
+    property alias selHeight: tfHeight.text
+    property alias selColors: tfColors.text
 
     Column {
         spacing: 20
@@ -29,9 +32,10 @@ Page {
                     font.pointSize: fontSize
                 }
                 TextField {
-                    id: teWidth
-                    text: "120"
+                    id: tfWidth
+                    text: "100"
                     font.pointSize: fontSize
+                    validator: IntValidator {bottom: 40; top: 120}
 
                 }
 
@@ -41,9 +45,10 @@ Page {
                     font.pointSize: fontSize
                 }
                 TextField {
-                    id: teHeight
-                    text: "90"
+                    id: tfHeight
+                    text: "100"
                     font.pointSize: fontSize
+                    validator: IntValidator {bottom: 40; top: 120}
                 }
             }
         }
@@ -63,10 +68,10 @@ Page {
                     font.pointSize: fontSize
                 }
                 TextField {
-                    id: teColors
+                    id: tfColors
                     text: "20"
                     font.pointSize: fontSize
-
+                    validator: IntValidator {bottom: 5; top: 99}
                 }
             }
         }

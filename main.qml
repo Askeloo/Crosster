@@ -142,10 +142,14 @@ ApplicationWindow {
             }
 
             model: ListModel {
-                ListElement { title: "\uf5ae    Scheme"; pushOpen: false; source: "qrc:/PatternPage.qml" }
-                ListElement { title: "\uf65e    Create new"; pushOpen: false; source: "qrc:/CreatePage.qml" }
-                ListElement { title: "\uf07c    Open pattern"; pushOpen: false; source: "qrc:/OpenPage.qml" }
-                ListElement { title: "\uf05a    About"; pushOpen: true; source: "qrc:/AboutPage.qml" }
+                ListElement { title: "\uf5ae    Scheme";
+                    pushOpen: false; source: "qrc:/PatternPage.qml" }
+                ListElement { title: "\uf65e    Create new";
+                    pushOpen: false; source: "qrc:/CreatePage.qml" }
+                ListElement { title: "\uf07c    Open pattern";
+                    pushOpen: false; source: "qrc:/OpenPage.qml" }
+                ListElement { title: "\uf05a    About";
+                    pushOpen: true; source: "qrc:/AboutPage.qml" }
             }
         }
     }

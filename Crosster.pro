@@ -48,6 +48,7 @@ ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
 
 HEADERS += \
     OpenAndroidGallery.h \
+    PatternInfo.h \
     cellitem.h \
     celltablemodel.h \
     guimanager.h \

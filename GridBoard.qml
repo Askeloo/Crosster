@@ -11,12 +11,6 @@ Item {
     anchors.fill: parent
     property bool editMode: false
 
-    Rectangle {
-        id: background
-        color: backGroundColor
-        anchors.fill: parent
-    }
-
     PinchArea {
         id: p
         anchors.fill: parent //тут f
@@ -104,8 +98,9 @@ Item {
                         implicitWidth: 15
                         implicitHeight: 15
 
-                        color: cell.checked ? "red" : "lightgreen"
-                        //opacity: cell.checked ? 1 : 0.33
+                        color: cell.checked ? "red" : cell.color //? "red" : "lightgreen" //ui in priority
+                        //opacity: cell.checked ? 0.33 : 1
+
 
                         MouseArea {
                             //z: 4
@@ -120,6 +115,7 @@ Item {
                             font.pixelSize: 10
                             anchors.centerIn: parent
                             text: cell.symbol
+                            color: ((cellRect.color.r + cellRect.color.g + cellRect.color.b) / 3 < 0.5) ? "white" : "black"
                         }
                     }
 

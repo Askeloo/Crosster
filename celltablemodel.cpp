@@ -9,8 +9,8 @@ CellTableModel::CellTableModel(QObject *parent)
 {
     //CellItem tempCell(QColor("lightgreen"), "X", false);
     CellContainer temp;
-    m_width = 120;
-    m_height = 90;
+    m_width = 100;
+    m_height = 75;
     for(size_t i = 0; i < m_width * m_height; i++)
     {
         CellItem* tempCell = new CellItem(QColor("lightgreen"), "X", false);

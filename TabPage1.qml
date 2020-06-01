@@ -4,7 +4,7 @@ import QtQuick.Controls 2.12
 Page {
     //anchors.fill: parent
     property alias chP: chP
-    property alias img: image
+    property alias imgSource: image.source
 
     Button {
         id: chP

@@ -9,6 +9,7 @@
 #include "rolesenum.h"
 #include "cellitem.h"
 
+
 //! [modelclass]
 class CellTableModel : public QAbstractTableModel
 {
