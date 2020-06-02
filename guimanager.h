@@ -45,11 +45,12 @@ signals:
 public slots:
     // theese functions must start from low letter
     void createPattern();
+    void highlight(QColor colorToHL);
 
 private:
     PatternInfo m_pi;
 
-    PatternMaker m_patternMaker;
+    PatternMaker m_patternMaker;  //delete from guiManager
 
     //models
     CellTableModel m_cellModel;

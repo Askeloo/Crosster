@@ -8,7 +8,7 @@ CellTableModel::CellTableModel(QObject *parent)
     : QAbstractTableModel(parent)
 {
     //CellItem tempCell(QColor("lightgreen"), "X", false);
-    CellContainer temp;
+    QVector<CellItem*> temp;
     m_width = 100;
     m_height = 75;
     for(size_t i = 0; i < m_width * m_height; i++)
@@ -44,7 +44,7 @@ QVariant CellTableModel::data(const QModelIndex &index, int role) const
     return QVariant::fromValue(qobject_cast<QObject*>(m_scheme[cellIndex({index.column(), index.row()})]));
 }
 
-void CellTableModel::setWholeData(CellTableModel::CellContainer cont, size_t w, size_t h)
+void CellTableModel::setWholeData(QVector<CellItem*> cont, size_t w, size_t h)
 {
     if (!m_scheme.isEmpty()) {
       beginRemoveRows(QModelIndex(), 0, m_scheme.size() - 1);
@@ -57,6 +57,40 @@ void CellTableModel::setWholeData(CellTableModel::CellContainer cont, size_t w, 
     m_height = h;
 
     m_scheme = cont;
+}
+
+void CellTableModel::highlightColor(QColor colorToHL)
+{
+    if(m_hlIndecies.empty())  //there aren't any highlightings
+    {
+        highlightCells(colorToHL);
+    }
+    else
+    {
+        QColor hlColor = m_scheme[m_hlIndecies[0]]->color();
+        for(const int& i : m_hlIndecies)
+        {
+            m_scheme[i]->setHighlighted(false);
+        }
+        m_hlIndecies.clear();
+
+        if(colorToHL != hlColor)  //slected another color to highlight
+        {
+            highlightCells(colorToHL);
+        }
+    }
+}
+
+void CellTableModel::highlightCells(QColor colorToHL)
+{
+    for(int i = 0; i < m_scheme.size(); i++)
+    {
+        if(m_scheme[i]->color() == colorToHL)
+        {
+            m_scheme[i]->setHighlighted(true);
+            m_hlIndecies.push_back(i);
+        }
+    }
 }
 
 //bool CellTableModel::setData(const QModelIndex &index, const QVariant &value, int role)

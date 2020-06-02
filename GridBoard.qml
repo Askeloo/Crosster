@@ -10,6 +10,7 @@ Item {
 
     anchors.fill: parent
     property bool editMode: false
+    property bool showSymbols: false
 
     PinchArea {
         id: p
@@ -29,6 +30,7 @@ Item {
             initialHeight = f.contentHeight
             console.debug("PinchStart___" + zoomScale.xScale + "___" + zoomScale.yScale)
 
+            showSymbols = false
             //f.interactive=false;
         }
 
@@ -55,6 +57,7 @@ Item {
         }
 
         onPinchFinished: {
+            showSymbols = true
             //prevScale = pinch.scale
             //console.debug("PinchEnd")
             //f.interactive=true;
@@ -97,21 +100,32 @@ Item {
                         id: cellRect
                         implicitWidth: 15
                         implicitHeight: 15
-
-                        color: cell.checked ? "red" : cell.color //? "red" : "lightgreen" //ui in priority
+                        color: cell.checked ? "red" : (cell.highlighted ? "orange" : cell.color)
                         //opacity: cell.checked ? 0.33 : 1
 
 
                         MouseArea {
                             //z: 4
                             anchors.fill: parent
-                            enabled: editMode
-                            onPressed:  cell.checked = !cell.checked
+                            //enabled: editMode
+                            onPressed: {
+                                if(editMode) {
+                                    cell.checked = !cell.checked
+                                }
+                            }
+                            onPressAndHold: {
+                                 if(!editMode) {
+                                    guiManager.highlight(cell.color)
+                                }
+                            }
+
+                            //onPressAndHold: cellRect.color = "green"
+                            //onDoubleClicked: cellRect.color = "blue"
                         }
 
                         Text {
                             id: symbol
-                            visible: p.prevScale > 0.5
+                            visible: (p.prevScale > 0.5) && showSymbols
                             font.pixelSize: 10
                             anchors.centerIn: parent
                             text: cell.symbol
