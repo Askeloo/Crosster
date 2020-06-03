@@ -22,8 +22,8 @@ ApplicationWindow {
     property color offlineFriendColor: "#FFAB91"
 
 
-    property string prevTitle: "Open pattern"
-    property string currentTitle: "Open pattern"
+    property string prevTitle: "Open pattern"  //hardcode
+    property string currentTitle: "Open pattern"  //hardcode
 
     property alias stackView: stackView
     property bool appIsBusy: false
@@ -36,6 +36,7 @@ ApplicationWindow {
             anchors.fill: parent
 
             ToolButton {
+                id: tbBurger
                 //icon.name: stackView.depth > 1 ? "back" : "drawer"
                 Text {
                     //anchors.fill: parent
@@ -59,6 +60,7 @@ ApplicationWindow {
 
             Label {
                 id: titleLabel
+//                anchors.left: tbBurger.right
                 text: window.currentTitle
                 font.pixelSize: 20
                 elide: Label.ElideRight
@@ -68,6 +70,7 @@ ApplicationWindow {
             }
 
             ToolButton {
+                visible: (window.currentTitle == "Scheme")  //hardcode
                 Text {
                     z: 1
                     //anchors.fill: parent
@@ -84,8 +87,14 @@ ApplicationWindow {
                     transformOrigin: Menu.TopRight
 
                     MenuItem {
-                        text: "About"
-                        onTriggered: aboutDialog.open()
+                        text: "About pattern"
+                        onTriggered:
+                        {
+                            guiManager.updateProgress()
+                            pushPage("qrc:/InfoPage.qml")
+                            window.currentTitle = "About pattern";
+                            //aboutDialog.open()
+                        }
                     }
                 }
             }
@@ -123,7 +132,7 @@ ApplicationWindow {
 
             delegate: ItemDelegate {
                 width: drawer.width
-                text: model.title
+                text: model.iconCode + model.title
                 highlighted: ListView.isCurrentItem
                 onClicked: {
                     drawer.close();
@@ -131,9 +140,10 @@ ApplicationWindow {
                     {
                         appIsBusy = true;
                         listView.currentIndex = index;
-                        window.prevTitle = window.currentTitle;
+                        //window.prevTitle = window.currentTitle;
                         if(pushOpen)
-                            stackView.push(model.source);
+                            //stackView.push(model.source);
+                            pushPage(model.source)
                         else
                             stackView.replace(model.source);
                         window.currentTitle = model.title;
@@ -142,13 +152,13 @@ ApplicationWindow {
             }
 
             model: ListModel {
-                ListElement { title: "\uf5ae    Scheme";
+                ListElement { iconCode: "\uf5ae    "; title: "Scheme";
                     pushOpen: false; source: "qrc:/PatternPage.qml" }
-                ListElement { title: "\uf65e    Create new";
+                ListElement { iconCode: "\uf65e    "; title: "Create new";
                     pushOpen: false; source: "qrc:/CreatePage.qml" }
-                ListElement { title: "\uf07c    Open pattern";
+                ListElement { iconCode: "\uf07c    "; title: "Open pattern";
                     pushOpen: false; source: "qrc:/OpenPage.qml" }
-                ListElement { title: "\uf05a    About";
+                ListElement { iconCode: "\uf05a    "; title: "About";
                     pushOpen: true; source: "qrc:/AboutPage.qml" }
             }
         }
@@ -192,7 +202,7 @@ ApplicationWindow {
 
             Label {
                 width: aboutDialog.availableWidth
-                text: "Kek"
+                text: "kek"
                 wrapMode: Label.Wrap
                 font.pixelSize: 12
             }
@@ -204,6 +214,11 @@ ApplicationWindow {
         id: fontAwesome
         name: "fontawesome"
         source: "qrc:/Font Awesome 5 Free-Solid-900.otf"
+    }
+
+    function pushPage(page) {
+        window.prevTitle = window.currentTitle;
+        stackView.push(page)
     }
 }
 

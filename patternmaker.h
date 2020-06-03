@@ -2,7 +2,6 @@
 #define PATTERNMAKER_H
 
 #include <array>
-#include <unordered_map>
 
 #include <QString>
 #include <QColor>
@@ -60,7 +59,7 @@ class PatternMaker
 public:
     PatternMaker();
 
-    QVector<CellItem*> createPattern(const PatternInfo&);
+    std::tuple<QVector<CellItem*>, int> createPattern(const PatternInfo&);
 
     int getDistance(const QColor &c, const QColor &c2);
     int closestColorBlock(const QColor &color, const std::vector<ColorBlock> &clusters); // make it template
@@ -72,7 +71,7 @@ public:
 
 private:
     std::vector<FlossData> m_flosses;
-    QMap<QColor, QColor> m_colorBindings;
+    QMap<QColor, QColor> m_colorBindings;  //change to QHash
 
     static std::vector<QString> SYMBOLS;
 };

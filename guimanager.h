@@ -19,6 +19,8 @@ class GUIManager : public QObject
     Q_PROPERTY(unsigned width READ width WRITE setWidth)
     Q_PROPERTY(unsigned height READ height WRITE setHeight)
     Q_PROPERTY(unsigned maxColors READ maxColors WRITE setMaxColors)
+    Q_PROPERTY(unsigned threadsAmount READ threadsAmount WRITE setThreadsAmount)
+    Q_PROPERTY(double progress READ progress CONSTANT)
 
 public:
     explicit GUIManager(QObject* parent = nullptr);
@@ -39,6 +41,10 @@ public:
     unsigned height() const     {return m_pi.height;}
     void setMaxColors(unsigned maxColors)   {m_pi.maxColors = maxColors;}
     unsigned maxColors() const              {return m_pi.maxColors;}
+    void setThreadsAmount(unsigned ta)   {m_pi.threadsAmount = ta;}
+    unsigned threadsAmount() const       {return m_pi.threadsAmount;}
+    void setProgress(const double &progress)  {m_progress = progress;}
+    double progress() const {return m_progress;    }
 
 signals:
 
@@ -46,6 +52,7 @@ public slots:
     // theese functions must start from low letter
     void createPattern();
     void highlight(QColor colorToHL);
+    void updateProgress();
 
 private:
     PatternInfo m_pi;
@@ -55,7 +62,7 @@ private:
     //models
     CellTableModel m_cellModel;
 
-    unsigned m_progress;
+    double m_progress;
 };
 
 #endif // GUIMANAGER_H

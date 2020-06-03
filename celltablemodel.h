@@ -36,6 +36,8 @@ public:
     void highlightColor(QColor colorToHL);
     void highlightCells(QColor colorToHL);
 
+    double getProgress() {return m_scheme[0]->progress() / static_cast<double>(m_width * m_height);}
+
 private:
     QPoint cellCoordinatesFromIndex(int cellIndex) const;
     std::size_t cellIndex(const QPoint &coordinates) const;
@@ -46,7 +48,6 @@ private:
 
     size_t m_width;
     size_t m_height;
-
 };
 
 #endif // CELLTABLEMODEL_H

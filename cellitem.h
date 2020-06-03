@@ -29,9 +29,14 @@ public:
     bool checked() const {return m_checked;}
     void setChecked(bool checked);
 
+    static int progress();
+
 signals:
-    void CheckChanged();
-    void HighlightedChanged();
+    void CheckChanged(bool);
+    void HighlightedChanged(bool);
+
+public slots:
+    void updateProgress(bool);
 
 private:
     QColor m_color;
@@ -39,6 +44,7 @@ private:
     bool m_highlighted;
     bool m_checked;
 
+    static int m_progress;
 };
 
 #endif // CELLITEM_H

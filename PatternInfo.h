@@ -14,6 +14,7 @@ struct PatternInfo {
     QString flossBrand;
     unsigned width, height;
     unsigned maxColors;
+    unsigned threadsAmount;
 };
 
 #endif // PATTERNINFO_H

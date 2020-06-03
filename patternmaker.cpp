@@ -39,7 +39,7 @@ PatternMaker::PatternMaker()
 
 }
 
-QVector<CellItem*> PatternMaker::createPattern(const PatternInfo& pi)
+std::tuple<QVector<CellItem*>, int> PatternMaker::createPattern(const PatternInfo& pi)
 {
     QElapsedTimer timer;
     timer.start();
@@ -59,12 +59,13 @@ QVector<CellItem*> PatternMaker::createPattern(const PatternInfo& pi)
 
     //binding to flosses` colors
     auto vectCells = convertImage(reducedImage);
-
+    int flossesAmount = m_colorBindings.size();
+    m_colorBindings.clear();
 
     qDebug() << "Creating pattern took: " << timer.elapsed() << "milliseconds";
 
     //QVector::fromStdVector();
-    return vectCells;
+    return {vectCells, flossesAmount};
 }
 
 int PatternMaker::getDistance(const QColor &c, const QColor &c2)
