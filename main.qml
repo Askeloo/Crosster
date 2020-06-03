@@ -9,6 +9,12 @@ ApplicationWindow {
     visible: true
     title: "Crosster"
 
+//    Material.theme: Material.Teal
+    Material.primary: Material.Teal
+    Material.accent: Material.Teal
+    Material.foreground: Material.Teal
+//    Material.background: Material.LightGreen
+
     property color mainAppColor: "grey"
     property color borderColor: "#263238"
     property color backGroundColor:  "lightgrey"
@@ -63,9 +69,9 @@ ApplicationWindow {
 //                anchors.left: tbBurger.right
                 text: window.currentTitle
                 font.pixelSize: 20
-                elide: Label.ElideRight
-                horizontalAlignment: Qt.AlignHCenter
-                verticalAlignment: Qt.AlignVCenter
+//                elide: Label.ElideRight
+//                horizontalAlignment: Qt.AlignHCenter
+//                verticalAlignment: Qt.AlignVCenter
                 Layout.fillWidth: true
             }
 

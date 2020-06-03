@@ -11,5 +11,7 @@
         <file>TabPage2.qml</file>
         <file>Font Awesome 5 Free-Solid-900.otf</file>
         <file>InfoPage.qml</file>
+        <file>InfoTabPage1.qml</file>
+        <file>InfoTabPage2.qml</file>
     </qresource>
 </RCC>

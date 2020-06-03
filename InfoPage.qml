@@ -2,81 +2,34 @@ import QtQuick 2.0
 import QtQuick.Controls 2.12
 
 Page {
-    property int fontSize: 25
-
-    Column {
-        id: aboutColumn
+    SwipeView {
+        id: swipeView
         anchors.fill: parent
-        anchors.margins: 20
-        spacing: 10
+        currentIndex: tabBar.currentIndex
 
-        Label {
-            height: 40
-            verticalAlignment: Qt.AlignVCenter
-            text: guiManager.name
-            wrapMode: Label.Wrap
-            font.pixelSize: fontSize
-            font.bold: true
+        InfoTabPage1 {
+            id: itp1
+
         }
 
-            Label {
-                height: 40
-                text: "Size"
-                wrapMode: Label.Wrap
-                font.pixelSize: fontSize
+        InfoTabPage2 {
+            id: itp2
 
-            }
-            Text {
-                anchors.right: parent.right
-                text: guiManager.width + "x" + guiManager.height
-                font.pixelSize: fontSize
-                color: "grey"
-            }
-
-
-
-            Label {
-                height: 40
-                text: "Floss brand"
-                wrapMode: Label.Wrap
-                font.pixelSize: fontSize
-            }
-            Text {
-                anchors.right: parent.right
-                text: guiManager.flossBrand
-                font.pixelSize: fontSize
-                color: "grey"
-            }
-
-
-
-            Label {
-                height: 40
-                text: "Threads amount"
-                wrapMode: Label.Wrap
-                font.pixelSize: fontSize
-            }
-            Text {
-                anchors.right: parent.right
-                text: guiManager.threadsAmount
-                font.pixelSize: fontSize
-                color: "grey"
-            }
-
-
-
-            Label {
-                height: 40
-                text: "Progress"
-                wrapMode: Label.Wrap
-                font.pixelSize: fontSize
-            }
-            Text {
-                anchors.right: parent.right
-                text: guiManager.progress + " %"
-                font.pixelSize: fontSize
-                color: "grey"
-            }
+        }
 
     }
+
+    footer: TabBar {
+        id: tabBar
+        currentIndex: swipeView.currentIndex
+
+        TabButton {
+            text: "Info"
+        }
+        TabButton {
+            text: "Flosses"
+        }
+    }
 }
+
+
