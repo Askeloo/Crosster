@@ -4,7 +4,7 @@
 #include <QTextStream>
 #include <QRect>
 
-CellTableModel::CellTableModel(QObject *parent)
+CellsModel::CellsModel(QObject *parent)
     : QAbstractTableModel(parent)
 {
     //CellItem tempCell(QColor("lightgreen"), "X", false);
@@ -20,7 +20,7 @@ CellTableModel::CellTableModel(QObject *parent)
     setWholeData(temp, m_width, m_height);
 }
 
-int CellTableModel::rowCount(const QModelIndex &parent) const
+int CellsModel::rowCount(const QModelIndex &parent) const
 {
     if (parent.isValid())
         return 0;
@@ -28,7 +28,7 @@ int CellTableModel::rowCount(const QModelIndex &parent) const
     return m_height;
 }
 
-int CellTableModel::columnCount(const QModelIndex &parent) const
+int CellsModel::columnCount(const QModelIndex &parent) const
 {
     if (parent.isValid())
         return 0;
@@ -36,7 +36,7 @@ int CellTableModel::columnCount(const QModelIndex &parent) const
     return m_width;
 }
 
-QVariant CellTableModel::data(const QModelIndex &index, int role) const
+QVariant CellsModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid() || role != Roles::CELL_ROLE)
         return QVariant();
@@ -44,7 +44,7 @@ QVariant CellTableModel::data(const QModelIndex &index, int role) const
     return QVariant::fromValue(qobject_cast<QObject*>(m_scheme[cellIndex({index.column(), index.row()})]));
 }
 
-void CellTableModel::setWholeData(QVector<CellItem*> cont, size_t w, size_t h)
+void CellsModel::setWholeData(QVector<CellItem*> cont, size_t w, size_t h)
 {
     if (!m_scheme.isEmpty()) {
       beginRemoveRows(QModelIndex(), 0, m_scheme.size() - 1);
@@ -59,7 +59,7 @@ void CellTableModel::setWholeData(QVector<CellItem*> cont, size_t w, size_t h)
     m_scheme = cont;
 }
 
-void CellTableModel::highlightColor(QColor colorToHL)
+void CellsModel::highlightColor(QColor colorToHL)
 {
     if(m_hlIndecies.empty())  //there aren't any highlightings
     {
@@ -81,7 +81,7 @@ void CellTableModel::highlightColor(QColor colorToHL)
     }
 }
 
-void CellTableModel::highlightCells(QColor colorToHL)
+void CellsModel::highlightCells(QColor colorToHL)
 {
     for(int i = 0; i < m_scheme.size(); i++)
     {
@@ -113,7 +113,7 @@ Qt::ItemFlags CellTableModel::flags(const QModelIndex &index) const
 }*/
 
 
-QPoint CellTableModel::cellCoordinatesFromIndex(int cellIndex) const
+QPoint CellsModel::cellCoordinatesFromIndex(int cellIndex) const
 {
     QPoint p;
     p.setX(cellIndex % m_width);
@@ -121,7 +121,7 @@ QPoint CellTableModel::cellCoordinatesFromIndex(int cellIndex) const
     return p;
 }
 
-std::size_t CellTableModel::cellIndex(const QPoint &coordinates) const
+std::size_t CellsModel::cellIndex(const QPoint &coordinates) const
 {
     return std::size_t(coordinates.y() * m_width + coordinates.x());
 }

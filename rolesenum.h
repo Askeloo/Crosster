@@ -4,7 +4,8 @@
 #include <Qt>
 
 enum Roles {
-  CELL_ROLE = Qt::UserRole,
-  FLOSS_ROLE
+    CELL_ROLE = Qt::UserRole,
+    FLOSS_ROLE,
+    PATTERN_ROLE
 };
 #endif // ROLESENUM_H

@@ -7,8 +7,21 @@
 
 //improve symbols list
 std::vector<QString> PatternMaker::SYMBOLS=  {"*", "-", "+", "T", ">", "<", "V", "O", "X", "U", "B", "A", "X", "||", "^"};
+/*    Not working all
+std::vector<QString> PatternMaker::SYMBOLS=  {"+", "-", "<", ">", "@", "#", "$", "%", "꒫", "*",
+                                              "?", "=", "꒧", "⣿", "♈️", "♉️", "♊️", "♋️", "♌️", "♏️",
+                                              "☁️", "☂️", "☃️", "★", "☆", "☉", "☎️", "☢️", "☯️", "☫",
+                                              "☼", "♂", "♥️", "♦️", "♠️", "‰", "♪", "♫", "✂️", "✈️",
+                                              "✆", "✉️", "👑", "💘", "💋", "💞", "💢", "💥", "💦", "👓",
+                                              "🐒", "👗", "🌲", "🐬", "👞", "🐙", "🦄", "🦌", "🐍", "🍎",
+                                              "🍇", "🍈", "🍒", "🍎", "🍏", "🍓", "🥕", "🍞", "🍖", "🍷",
+                                              "🚕", "🌛", "🌜", "📯", "🔔", "🎷", "📷", "🔍", "🎹", "🥁",
+                                              "💡", "🔒", "🔑", "📈", "📉", "🔨", "💰", "🎼", "🔙", "🔜",
+                                              "🎥", "💿", "🔊", "🎮", "💊", "🎰","T", "V", "O", "X", "U", "B", "A", "X",};
+*/
 
-bool operator<(const QColor & a, const QColor & b) {
+bool operator<(const QColor & a, const QColor & b)    //TO DELETE
+{
    return a.red() < b.red()
        || a.green() < b.green()
        || a.blue() < b.blue()
@@ -63,7 +76,6 @@ std::tuple<QVector<CellItem*>, int> PatternMaker::createPattern(const PatternInf
 
     qDebug() << "Creating pattern took: " << timer.elapsed() << "milliseconds";
 
-    //QVector::fromStdVector();
     return {vectCells, flossesAmount};
 }
 
@@ -85,7 +97,7 @@ int PatternMaker::closestColorBlock(const QColor &color, const std::vector<Color
         int dist = getDistance(it->color, color);
         if (dist < minDist) {
             minDist = dist;
-            index = it - clusters.begin(); //Try it or std::distance
+            index = it - clusters.begin();
         }
     }
     return index;

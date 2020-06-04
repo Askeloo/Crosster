@@ -5,7 +5,7 @@ GUIManager::GUIManager(QObject *parent) : QObject(parent)
 
 }
 
-CellTableModel *GUIManager::cellModel()
+CellsModel *GUIManager::cellModel()
 {
     return &m_cellModel;
 }

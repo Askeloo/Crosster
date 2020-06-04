@@ -27,7 +27,7 @@ public:
     GUIManager(const GUIManager&) = delete;
     GUIManager& operator=(const GUIManager&) = delete;
 
-    CellTableModel* cellModel();
+    CellsModel* cellModel();
 
     void setName(QString name) { m_pi.name = name; }
     QString name() const       { return m_pi.name; }
@@ -60,8 +60,9 @@ private:
     PatternMaker m_patternMaker;  //delete from guiManager
 
     //models
-    CellTableModel m_cellModel;
-
+    CellsModel m_cellModel;
+//    FlossesModel m_flossesModel;
+//    PatternsModel m_patternsModel;
     double m_progress;
 };
 

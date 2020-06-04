@@ -11,13 +11,13 @@
 
 
 //! [modelclass]
-class CellTableModel : public QAbstractTableModel
+class CellsModel : public QAbstractTableModel
 {
     Q_OBJECT
     //Q_ENUMS(Roles)
 
 public:
-    explicit CellTableModel(QObject *parent = nullptr);
+    explicit CellsModel(QObject *parent = nullptr);
 
     QHash<int, QByteArray> roleNames() const override {
         return {

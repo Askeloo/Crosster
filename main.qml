@@ -8,6 +8,7 @@ ApplicationWindow {
     id: window
     visible: true
     title: "Crosster"
+//    title: "CS Helper"
 
 //    Material.theme: Material.Teal
     Material.primary: Material.Teal
