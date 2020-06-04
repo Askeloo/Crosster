@@ -17,9 +17,7 @@ bool operator<(const QColor & a, const QColor & b) {
 
 PatternMaker::PatternMaker()
 {
-    //hardcoded file path
-    QFile file("/storage/emulated/0/Crosster/FlossesData/dmc.csv");
-    //QFile file(":/files/dmc.csv");
+    QFile file(":/files/dmc.csv");
     if (file.open(QFile::ReadOnly | QFile::Text) )
     {
         QTextStream in(&file);
