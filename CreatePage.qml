@@ -7,13 +7,14 @@ import Askelo.OpenAndroidGallery 1.0
 Page {
 
     property string imgPath: ""
+    property real sideRelation: 1 //width to height
 
     SwipeView {
         id: swipeView
         anchors.fill: parent
         currentIndex: tabBar.currentIndex
 
-        TabPage1 {
+        CreateTabPage1 {
             id: tp1
 
             chP.onClicked: {
@@ -21,7 +22,7 @@ Page {
             }
         }
 
-        TabPage2 {
+        CreateTabPage2 {
             id: tp2
 
             btnCreate.onClicked: createDialog.open()
@@ -50,7 +51,7 @@ Page {
         id: openG
         onSigSendPath: {
             imgPath = path;
-            tp1.imgSource = "file://" + path
+            tp1.img.source = "file://" + path
         }
     }
 

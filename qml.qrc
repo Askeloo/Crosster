@@ -7,11 +7,15 @@
         <file>OpenPage.qml</file>
         <file>PageBackground.qml</file>
         <file>PatternPage.qml</file>
-        <file>TabPage1.qml</file>
-        <file>TabPage2.qml</file>
-        <file>Font Awesome 5 Free-Solid-900.otf</file>
         <file>InfoPage.qml</file>
         <file>InfoTabPage1.qml</file>
         <file>InfoTabPage2.qml</file>
+        <file>CreateTabPage1.qml</file>
+        <file>CreateTabPage2.qml</file>
+        <file>files/_temp_lake.jpg</file>
+        <file>files/_temp_oleksa.jpg</file>
+        <file>files/_temp_sun.jpg</file>
+        <file>files/dmc.csv</file>
+        <file>files/Font Awesome 5 Free-Solid-900.otf</file>
     </qresource>
 </RCC>

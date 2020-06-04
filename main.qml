@@ -68,6 +68,7 @@ ApplicationWindow {
                 id: titleLabel
 //                anchors.left: tbBurger.right
                 text: window.currentTitle
+                color: backGroundColor
                 font.pixelSize: 20
 //                elide: Label.ElideRight
 //                horizontalAlignment: Qt.AlignHCenter
@@ -122,7 +123,44 @@ ApplicationWindow {
 
             //width: drawer.width + 1
             height: 0.33 * drawer.height
-            color: borderColor
+
+            //color: borderColor
+
+            gradient: Gradient {
+                GradientStop{
+                    position: 0.0
+                    color: "#009688" //(Material.Teal)
+                }
+                GradientStop{
+                    position: 1.0
+                    color: "#00695C"
+                }
+            }
+
+            Column {
+                anchors.left: parent.left
+                anchors.bottom: parent.bottom
+                anchors.margins: 20
+                spacing: 10
+                Label {
+                    text: "Cross"
+                    font.italic: true
+                    font.pointSize: 30
+                    color: backGroundColor
+                }
+                Label {
+                    text: "Stitch"
+                    font.italic: true
+                    font.pointSize: 30
+                    color: backGroundColor
+                }
+                Label {
+                    text: "Helper"
+                    font.italic: true
+                    font.pointSize: 30
+                    color: backGroundColor
+                }
+            }
         }
 
         ListView {
@@ -219,7 +257,7 @@ ApplicationWindow {
     FontLoader {
         id: fontAwesome
         name: "fontawesome"
-        source: "qrc:/Font Awesome 5 Free-Solid-900.otf"
+        source: "qrc:/files/Font Awesome 5 Free-Solid-900.otf"
     }
 
     function pushPage(page) {

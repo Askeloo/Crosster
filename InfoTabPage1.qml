@@ -86,7 +86,7 @@ Page {
             }
             Text {
                 anchors.right: parent.right
-                text: guiManager.progress + " %"
+                text: guiManager.progress.toFixed(4) + " %"
                 font.pixelSize: fontSize
                 color: "grey"
             }

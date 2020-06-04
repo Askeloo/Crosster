@@ -33,10 +33,14 @@ Page {
                 }
                 TextField {
                     id: tfWidth
-                    text: "100"
+                    text: Math.round(100)
                     font.pointSize: fontSize
-                    validator: IntValidator {bottom: 40; top: 120}
-
+                    validator: IntValidator {}
+                    onTextEdited:  {
+                        tfHeight.text = Math.round(text / sideRelation)
+                        console.debug("k_" + text / sideRelation)
+                        console.debug("rk_" + Math.round(text / sideRelation))
+                    }
                 }
 
                 Label {
@@ -46,9 +50,14 @@ Page {
                 }
                 TextField {
                     id: tfHeight
-                    text: "100"
+                    text: Math.round(tfWidth.text / sideRelation)
                     font.pointSize: fontSize
-                    validator: IntValidator {bottom: 40; top: 120}
+                    validator: IntValidator {}
+                    onTextEdited:  {
+                        tfWidth.text = Math.round(text * sideRelation)
+                        console.debug("k_" + text * sideRelation)
+                        console.debug("rk_" + Math.round(text * sideRelation))
+                    }
                 }
             }
         }
@@ -69,7 +78,7 @@ Page {
                 }
                 TextField {
                     id: tfColors
-                    text: "20"
+                    text: "40"
                     font.pointSize: fontSize
                     validator: IntValidator {bottom: 5; top: 99}
                 }
