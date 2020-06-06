@@ -32,7 +32,8 @@ OpenAndroidGallery::OpenAndroidGallery(QObject *parent) : QObject(parent)
 
 void OpenAndroidGallery::openGallery()
 {
-    const QVector<QString> permissions({"android.permission.WRITE_EXTERNAL_STORAGE"});
+    const QVector<QString> permissions({"android.permission.READ_EXTERNAL_STORAGE",
+                                        "android.permission.WRITE_EXTERNAL_STORAGE"});
 
     for(const QString &permission : permissions){
         auto result = QtAndroid::checkPermission(permission);

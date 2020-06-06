@@ -101,11 +101,8 @@ Item {
                         implicitWidth: 15
                         implicitHeight: 15
                         color: cell.checked ? "red" : (cell.highlighted ? "orange" : cell.color)
-                        //opacity: cell.checked ? 0.33 : 1
-
 
                         MouseArea {
-                            //z: 4
                             anchors.fill: parent
                             //enabled: editMode
                             onPressed: {
@@ -118,9 +115,6 @@ Item {
                                     guiManager.highlight(cell.color)
                                 }
                             }
-
-                            //onPressAndHold: cellRect.color = "green"
-                            //onDoubleClicked: cellRect.color = "blue"
                         }
 
                         Text {

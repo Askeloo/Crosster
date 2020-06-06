@@ -127,16 +127,15 @@ QString PatternMaker::getSymbol(const QColor &color)
 
 QImage PatternMaker::reduceColors(const QImage &image, int num_colors)
 {
-    std::mt19937 rng;
-    rng.seed(std::random_device()());
+    std::mt19937 rndgn;
+    rndgn.seed(std::random_device()());
 
     const int width = image.width();
     const int height = image.height();
-    // in case it takes too long to converge
-    const int max_iterations = 100;
+    const int maxIterations = 100;
 
-    std::uniform_int_distribution<std::mt19937::result_type> width_dist(0, width);
-    std::uniform_int_distribution<std::mt19937::result_type> height_dist(0, height);
+    std::uniform_int_distribution<std::mt19937::result_type> widthRange(0, width);
+    std::uniform_int_distribution<std::mt19937::result_type> heightRange(0, height);
 
     std::vector<int> indices(width * height, 0);
 
@@ -144,14 +143,13 @@ QImage PatternMaker::reduceColors(const QImage &image, int num_colors)
     clusters.reserve(num_colors);
 
     for (int i = 0; i < num_colors; ++i)
-    {
-        // generate random points to start the clusters off
-        int x = width_dist(rng);
-        int y = height_dist(rng);
+    {   //random points to start
+        int x = widthRange(rndgn);
+        int y = heightRange(rndgn);
         clusters.emplace_back(image.pixelColor(x,y));
     }
 
-    for (int iter = 0; iter < max_iterations; ++iter)
+    for (int it = 0; it < maxIterations; ++it)
     {
         for (int y = 0; y < height; ++y)
         {

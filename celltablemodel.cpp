@@ -7,17 +7,7 @@
 CellsModel::CellsModel(QObject *parent)
     : QAbstractTableModel(parent)
 {
-    //CellItem tempCell(QColor("lightgreen"), "X", false);
-    QVector<CellItem*> temp;
-    m_width = 100;
-    m_height = 75;
-    for(size_t i = 0; i < m_width * m_height; i++)
-    {
-        CellItem* tempCell = new CellItem(QColor("lightgreen"), "X", false);
-        temp.push_back(tempCell);
-    }
 
-    setWholeData(temp, m_width, m_height);
 }
 
 int CellsModel::rowCount(const QModelIndex &parent) const
@@ -92,25 +82,6 @@ void CellsModel::highlightCells(QColor colorToHL)
         }
     }
 }
-
-//bool CellTableModel::setData(const QModelIndex &index, const QVariant &value, int role)
-//{
-//    if (role != Roles::CELL_ROLE || data(index, role) == value)
-//        return false;
-
-//    m_currentState[cellIndex({index.column(), index.row()})] = value.toBool();
-//    emit dataChanged(index, index, {role});
-
-//    return true;
-//}
-/*
-Qt::ItemFlags CellTableModel::flags(const QModelIndex &index) const
-{
-    if (!index.isValid())
-        return Qt::NoItemFlags;
-
-    return Qt::ItemIsEditable;
-}*/
 
 
 QPoint CellsModel::cellCoordinatesFromIndex(int cellIndex) const

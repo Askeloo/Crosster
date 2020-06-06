@@ -20,17 +20,8 @@ ApplicationWindow {
     property color borderColor: "#263238"
     property color backGroundColor:  "lightgrey"
 
-    property color topLoginPageColor: "#FFB74D"
-    property color mainTextCOlor: "#64FFDA"
-    property color friendListColor: "#37474F"
-    property color friendMouseAreaColor: "#78909C"
-    property color choosenFriendColor: "#00BFA5"
-    property color onlineFriendColor: "#AED581"
-    property color offlineFriendColor: "#FFAB91"
-
-
-    property string prevTitle: "Open pattern"  //hardcode
-    property string currentTitle: "Open pattern"  //hardcode
+    property string prevTitle: "Scheme"  //hardcode
+    property string currentTitle: "Scheme"  //hardcode
 
     property alias stackView: stackView
     property bool appIsBusy: false
@@ -213,7 +204,7 @@ ApplicationWindow {
         id: stackView
         anchors.fill: parent
 
-        initialItem: "qrc:/OpenPage.qml"
+        initialItem: "qrc:/PatternPage.qml"
     }
 
     BusyIndicator {

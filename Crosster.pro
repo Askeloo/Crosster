@@ -15,10 +15,12 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     cellitem.cpp \
     celltablemodel.cpp \
+    flossesmodel.cpp \
     guimanager.cpp \
         main.cpp \
     OpenAndroidGallery.cpp \
-    patternmaker.cpp
+    patternmaker.cpp \
+    patternsmodel.cpp
 
 RESOURCES += qml.qrc
 
@@ -51,6 +53,8 @@ HEADERS += \
     PatternInfo.h \
     cellitem.h \
     celltablemodel.h \
+    flossesmodel.h \
     guimanager.h \
     patternmaker.h \
+    patternsmodel.h \
     rolesenum.h
