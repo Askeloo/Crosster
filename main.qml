@@ -16,6 +16,7 @@ ApplicationWindow {
     Material.foreground: Material.Teal
 //    Material.background: Material.LightGreen
 
+    property color mainColor: Material.color(Material.Teal)
     property color mainAppColor: "grey"
     property color borderColor: "#263238"
     property color backGroundColor:  "lightgrey"
@@ -245,12 +246,12 @@ ApplicationWindow {
         }
     }
 
-
     FontLoader {
         id: fontAwesome
         name: "fontawesome"
         source: "qrc:/files/Font Awesome 5 Free-Solid-900.otf"
     }
+
 
     function pushPage(page) {
         window.prevTitle = window.currentTitle;

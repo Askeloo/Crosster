@@ -18,7 +18,6 @@ Page {
         z: 3
         text: textIcon ? "\uf591" : "\uf0b2"
         font.pointSize: 25
-        font.family: "fontawesome"
 
         onClicked:  {
             gb.editMode = !gb.editMode

@@ -36,6 +36,20 @@ Page {
             if(image.status == Image.Ready)
             {
                 sideRelation = paintedWidth / paintedHeight
+                if(sideRelation > 1)
+                {
+                    heightTop = Math.round(heightTop / sideRelation)
+                    heightBottom = Math.round(heightBottom / sideRelation)
+                    widthTop = defaultSideTop
+                    widthBottom = defaultSideBottom
+                }
+                else
+                {
+                    widthTop = Math.round(widthTop * sideRelation)
+                    widthBottom = Math.round(widthBottom * sideRelation)
+                    heightTop = defaultSideTop
+                    heightBottom = defaultSideBottom
+                }
             }
         }
     }

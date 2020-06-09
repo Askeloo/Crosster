@@ -189,7 +189,7 @@ Item {
                             for(var i=0; i < nrows+1; i++){
                                 if(i%10 !== 0)
                                 {
-                                    var ki2 = wgrid*i - 0.2;
+                                    var ki2 = wgrid*i - 0.1;
                                     ctx2.moveTo(0, ki2);
                                     ctx2.lineTo(width, ki2);
                                 }
@@ -199,7 +199,7 @@ Item {
                             for(var j=0; j < ncols+1; j++){
                                 if(j%10 !== 0)
                                 {
-                                    var kj2 = wgrid*j - 0.2;
+                                    var kj2 = wgrid*j - 0.1;
                                     ctx2.moveTo(kj2, 0);
                                     ctx2.lineTo(kj2, height);
                                 }

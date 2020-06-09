@@ -9,6 +9,16 @@ Page {
     property string imgPath: ""
     property real sideRelation: 1 //width to height
 
+    property int defaultSideTop: 200
+    property int defaultSideBottom: 10
+    property int widthTop: defaultSideTop
+    property int widthBottom: defaultSideBottom
+    property int heightTop: defaultSideTop
+    property int heightBottom: defaultSideBottom
+
+    property int maxColorsTop: 50
+    property int maxColorsBottom: 5
+
     SwipeView {
         id: swipeView
         anchors.fill: parent
