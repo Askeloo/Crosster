@@ -54,7 +54,9 @@ Page {
             width: parent.width
             height: 60
             onClicked: {
-
+                guiManager.highlight(floss.color)
+                stackView.pop()
+                currentTitle = "Scheme"
             }
         }
 
