@@ -5,20 +5,6 @@
 #include <QDebug>
 #include <QElapsedTimer>
 
-//improve symbols list
-//std::vector<QString> PatternMaker::SYMBOLS=  {"*", "-", "+", "T", ">", "<", "V", "O", "X", "U", "B", "A", "X", "||", "^"};
-    //Not working all
-std::vector<QString> PatternMaker::SYMBOLS=  {"+", "-", "<", ">", "@", "#", "$", "%", "꒫", "*",
-                                              "?", "=", "꒧", "♈️", "♉️", "♊️", "♋️", "♌️", "♏️", "☁️",
-                                              "☂️", "☃️", "★","☆", "☉", "☎️", "☯️", "☼", "♂", "♥️",
-                                              "♦️", "♠️", "♣️", "‰", "♪", "♫", "✂️", "ε", "ϝ", "ϛ",
-                                              "η", "θ", "κ", "λ", "μ", "ν", "ξ", "π", "ϟ", "ʯ",
-                                              "ρ", "σ", "τ", "υ", "φ", "χ", "ψ", "ω", "ϡ", "Ⴔ",
-                                              "¬", "Þ", "☻", "☑️", "☟", "꓃", "꒜", "֍", "҂", "꒿",
-                                              "꒾", "©", "|", "♒️", "¥", "β", "¢", "γ", "α", "⁑",
-                                              "δ", "♑️", "ɮ", "§", "∴", "®", "ᛖ", "¤", "£", "♓️"};
-
-
 bool operator<(const QColor & a, const QColor & b)    //TO DELETE
 {
    return a.red() < b.red()
@@ -46,11 +32,9 @@ PatternMaker::PatternMaker()
         }
         file.close();
     }
-
-
 }
 
-std::tuple<QVector<CellItem*>, int> PatternMaker::createPattern(const PatternInfo& pi)
+std::tuple<QVector<CellItem*>, QVector<FlossItem*>> PatternMaker::createPattern(const PatternInfo& pi)
 {
     QElapsedTimer timer;
     timer.start();
@@ -69,13 +53,14 @@ std::tuple<QVector<CellItem*>, int> PatternMaker::createPattern(const PatternInf
     QImage reducedImage = reduceColors(resisedImg, pi.maxColors);
 
     //binding to flosses` colors
-    auto vectCells = convertImage(reducedImage);
-    int flossesAmount = m_colorBindings.size();
-    m_colorBindings.clear();
+    auto [vectCells, vectFlosses] = convertImage(reducedImage);
+
+    //int flossesAmount = m_colorBindings.size();
+    //m_colorBindings.clear();
 
     qDebug() << "Creating pattern took: " << timer.elapsed() << "milliseconds";
 
-    return {vectCells, flossesAmount};
+    return {vectCells, vectFlosses};
 }
 
 int PatternMaker::getDistance(const QColor &c, const QColor &c2)
@@ -118,6 +103,7 @@ unsigned PatternMaker::closestFloss(const QColor &color)
     return index;
 }
 
+//depricated function
 QString PatternMaker::getSymbol(const QColor &color)
 {
     unsigned mixed = (color.red() * 17 + color.green() * 11 + color.blue());
@@ -148,7 +134,8 @@ QImage PatternMaker::reduceColors(const QImage &image, int num_colors)
         clusters.emplace_back(image.pixelColor(x,y));
     }
 
-    for (int it = 0; it < maxIterations; ++it)
+    int it = 0;
+    for (; it < maxIterations; ++it)
     {
         for (int y = 0; y < height; ++y)
         {
@@ -168,8 +155,12 @@ QImage PatternMaker::reduceColors(const QImage &image, int num_colors)
                 changed = true;
         }
         if (!changed)
+        {
+            qDebug() << "Iteration: " << it;
             break;
+        }
     }
+    qDebug() << "Iteration: " << it;
 
     QImage out(width, height, QImage::Format_RGB32);
     for (int y = 0; y < height; ++y) {
@@ -181,32 +172,81 @@ QImage PatternMaker::reduceColors(const QImage &image, int num_colors)
     return out;
 }
 
-QVector<CellItem*> PatternMaker::convertImage(const QImage &image)
+std::tuple<QVector<CellItem*>, QVector<FlossItem*>> PatternMaker::convertImage(const QImage &image)
 {
     const int width = image.width();
     const int height = image.height();
+    int symbolIndex = 0;
+    int symbolsAmount = SYMBOLS.size();
     QVector<CellItem*> vectCells;
+    QVector<FlossItem*> vectFlosses;   //sort for amount
+//    fsadd.insert(new FlossItem());
+
+    QMap<QColor, QString> rgb2floss;
+    QMap<QString, FlossItem*> m_colorBindings;  //change to QHash
 
     for (int y = 0; y < height; ++y)
     {
         for (int x = 0; x < width; ++x)
         {
             QColor color = image.pixelColor(x,y);
+            QString convertedColorId;
             QColor convertedColor;
-            if(m_colorBindings.contains(color))
+            QString colorSymbol;
+
+            //FlossData fd = m_flosses[closestFloss(color)];
+
+            if(rgb2floss.contains(color))
             {
-                convertedColor = m_colorBindings[color];
+                convertedColorId = rgb2floss[color];
+
+                colorSymbol = m_colorBindings[convertedColorId]->symbol();
+                convertedColor = m_colorBindings[convertedColorId]->color();
+
+                m_colorBindings[convertedColorId]->incrAmount();
             }
             else
             {
-                //FlossData temp = m_flosses[closestFloss(color)]; //should save
-                convertedColor = m_flosses[closestFloss(color)].color;
-                m_colorBindings[color] = convertedColor;
-            }
-            CellItem* tempCell = new CellItem(convertedColor, getSymbol(convertedColor), false);
-            vectCells.push_back(tempCell);
 
+                FlossData fd = m_flosses[closestFloss(color)];
+                rgb2floss[color] = fd.id;
+
+                convertedColorId = rgb2floss[color];
+                if(m_colorBindings.contains(convertedColorId))
+                {
+
+                    m_colorBindings[convertedColorId]->incrAmount();
+                    colorSymbol = m_colorBindings[convertedColorId]->symbol();
+                    convertedColor = m_colorBindings[convertedColorId]->color();
+                }
+                else
+                {
+//                    convertedColor = m_flosses[closestFloss(color)].color;
+//                    rgb2floss[color] = convertedColor;
+                    QString symbol = "";
+                    if(symbolIndex <= symbolsAmount)
+                    {
+                        symbol = SYMBOLS[symbolIndex];
+                        symbolIndex++;
+                    }
+                    else
+                    {
+                        symbol = "?";
+                    }
+
+                    colorSymbol = symbol;
+                    convertedColor = fd.color;
+                    m_colorBindings[convertedColorId] = new FlossItem(fd.color, fd.id, fd.descr, symbol, 1);
+                }
+            }
+            CellItem* tempCell = new CellItem(convertedColor, colorSymbol, false);
+            vectCells.push_back(tempCell);
         }
     }
-    return vectCells;
+
+    for(auto it = m_colorBindings.begin(); it != m_colorBindings.end(); it++)
+    {
+        vectFlosses.push_back(it.value());
+    }
+    return {vectCells, vectFlosses};
 }

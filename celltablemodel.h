@@ -10,7 +10,6 @@
 #include "cellitem.h"
 
 
-//! [modelclass]
 class CellsModel : public QAbstractTableModel
 {
     Q_OBJECT

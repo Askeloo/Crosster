@@ -4,12 +4,14 @@
 #include <QObject>
 
 #include "celltablemodel.h"
+#include "flossesmodel.h"
 #include "patternmaker.h"
 
 class GUIManager : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QObject* cell_model READ cellModel CONSTANT)
+    Q_PROPERTY(QObject* floss_model READ flossModel CONSTANT)
     //selected color var will be in qml
 
     // should add READ config for aboutPattern page
@@ -28,6 +30,7 @@ public:
     GUIManager& operator=(const GUIManager&) = delete;
 
     CellsModel* cellModel();
+    FlossesModel *flossModel();
 
     void setName(QString name) { m_pi.name = name; }
     QString name() const       { return m_pi.name; }
@@ -57,11 +60,9 @@ public slots:
 private:
     PatternInfo m_pi;
 
-    PatternMaker m_patternMaker;  //delete from guiManager
-
     //models
     CellsModel m_cellModel;
-//    FlossesModel m_flossesModel;
+    FlossesModel m_flossModel;
 //    PatternsModel m_patternsModel;
     double m_progress;
 };

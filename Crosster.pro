@@ -54,6 +54,7 @@ HEADERS += \
     cellitem.h \
     celltablemodel.h \
     flossesmodel.h \
+    flossitem.h \
     guimanager.h \
     patternmaker.h \
     patternsmodel.h \

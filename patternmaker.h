@@ -12,6 +12,7 @@
 
 #include "PatternInfo.h"
 #include "cellitem.h"
+#include "flossitem.h"
 
 class PatternMaker
 {
@@ -59,7 +60,7 @@ class PatternMaker
 public:
     PatternMaker();
 
-    std::tuple<QVector<CellItem*>, int> createPattern(const PatternInfo&);
+    std::tuple<QVector<CellItem*>, QVector<FlossItem*>> createPattern(const PatternInfo&);
 
     int getDistance(const QColor &c, const QColor &c2);
     int closestColorBlock(const QColor &color, const std::vector<ColorBlock> &clusters); // make it template
@@ -67,13 +68,20 @@ public:
     QString getSymbol(const QColor& color);
 
     QImage reduceColors(const QImage &image, int num_colors);
-    QVector<CellItem*> convertImage(const QImage &image); //should return tuple <vector<cell>, vector<floss>, image>
+    std::tuple<QVector<CellItem*>, QVector<FlossItem*>> convertImage(const QImage &image); //should return tuple <vector<cell>, vector<floss>, image>
 
 private:
     std::vector<FlossData> m_flosses;
-    QMap<QColor, QColor> m_colorBindings;  //change to QHash
 
-    static std::vector<QString> SYMBOLS;
+    const std::vector<QString> SYMBOLS = {"+", "-", "<", ">", "@", "#", "$", "%", "꒫", "*",
+                                          "!", "=", "꒧", "♈️", "♉️", "♊️", "♋️", "♌️", "♏️", "☁️",
+                                          "☂️", "☃️", "★","☆", "☉", "☎️", "☯️", "☼", "♂", "♥️",
+                                          "♦️", "♠️", "♣️", "‰", "♪", "♫", "✂️", "ε", "ϝ", "ϛ",
+                                          "η", "θ", "κ", "λ", "μ", "ν", "ξ", "π", "ϟ", "ʯ",
+                                          "ρ", "σ", "τ", "υ", "φ", "χ", "ψ", "ω", "ϡ", "Ⴔ",
+                                          "¬", "Þ", "☻", "☑️", "☟", "꓃", "꒜", "֍", "҂", "꒿",
+                                          "꒾", "©", "|", "♒️", "¥", "β", "¢", "γ", "α", "⁑",
+                                          "δ", "♑️", "ɮ", "§", "∴", "®", "ᛖ", "¤", "£", "♓️"};
 };
 
 #endif // PATTERNMAKER_H
