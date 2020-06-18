@@ -7,6 +7,7 @@ Page {
     property alias selWidth: tfWidth.text
     property alias selHeight: tfHeight.text
     property alias selColors: tfColors.text
+    property alias dmcChecked: rbDMC.checked
 
     property int fontSize: 15
     property bool currentEdit: true  //for editing other side without loop to current
@@ -167,8 +168,9 @@ Page {
                     font.pointSize:  fontSize
                 }
                 RadioButton {
+                    id: rbAnchor
                     text: "Anchor"
-                    enabled: false
+                    font.pointSize:  fontSize
                 }
                 RadioButton {
                     text: "Sullivans"

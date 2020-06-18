@@ -13,9 +13,18 @@ bool operator<(const QColor & a, const QColor & b)    //TO DELETE
        || a.alpha() < b.alpha();
 }
 
-PatternMaker::PatternMaker()
+PatternMaker::PatternMaker(QString colorBrand)
 {
-    QFile file(":/files/dmc.csv");
+    qDebug() << "----1---------";
+    QFile file;
+    if(colorBrand == "DMC")
+    {
+        file.setFileName(":/files/dmc.csv");
+    }
+    else //"Anchor"
+    {
+        file.setFileName(":/files/anchor.csv");
+    }
     if (file.open(QFile::ReadOnly | QFile::Text) )
     {
         QTextStream in(&file);
@@ -31,7 +40,7 @@ PatternMaker::PatternMaker()
             m_flosses.emplace_back(id, descr, color);
         }
         file.close();
-    }
+   }
 }
 
 std::tuple<QVector<CellItem*>, QVector<FlossItem*>> PatternMaker::createPattern(const PatternInfo& pi)

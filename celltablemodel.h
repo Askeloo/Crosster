@@ -35,7 +35,7 @@ public:
     void highlightColor(QColor colorToHL);
     void highlightCells(QColor colorToHL);
 
-    double getProgress() {return m_scheme[0]->progress() / static_cast<double>(m_width * m_height);}
+    double getProgress() {return m_scheme[0]->progress() / static_cast<double>(m_width * m_height) * 100;}
 
 private:
     QPoint cellCoordinatesFromIndex(int cellIndex) const;

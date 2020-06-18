@@ -6,6 +6,7 @@
 #include "celltablemodel.h"
 #include "flossesmodel.h"
 #include "patternmaker.h"
+#include "dbmanager.h"
 
 class GUIManager : public QObject
 {
@@ -57,12 +58,16 @@ public slots:
     void highlight(QColor colorToHL);
     void updateProgress();
 
+    //void loadPatterns();
+    //void loadPatternData(int patternId);
+
 private:
     PatternInfo m_pi;
 
     //models
     CellsModel m_cellModel;
     FlossesModel m_flossModel;
+    DBManager m_db;
 //    PatternsModel m_patternsModel;
     double m_progress;
 };

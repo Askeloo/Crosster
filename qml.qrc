@@ -17,5 +17,6 @@
         <file>files/_temp_sun.jpg</file>
         <file>files/dmc.csv</file>
         <file>files/Font Awesome 5 Free-Solid-900.otf</file>
+        <file>files/anchor.csv</file>
     </qresource>
 </RCC>

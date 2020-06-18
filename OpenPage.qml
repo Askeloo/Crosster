@@ -16,19 +16,20 @@ Page {
             Row {
                 spacing: 10
 
-                Image {
-                    width: height
-                    height: parent.height
-                    source: model.imgSource
-                    sourceSize.width: 100
-                    fillMode: Image.PreserveAspectFit
-                    anchors.verticalCenter: parent.verticalCenter
-                }
+//                Image {
+//                    width: height
+//                    height: parent.height
+//                    source: model.imgSource
+//                    sourceSize.width: 100
+//                    fillMode: Image.PreserveAspectFit
+//                    anchors.verticalCenter: parent.verticalCenter
+//                }
 
                 Column {
                     Text {
                         id: name
                         text: model.name
+                        font.bold: true
                     }
                     Text {
                         id: size
@@ -36,7 +37,7 @@ Page {
                     }
                     Text {
                         id: floss
-                        text: model.flossBrand + ", " + model.flosses + "threads"
+                        text: model.flossBrand + ", " + model.flosses + " threads"
                     }
                     Text {
                         id: progress
@@ -58,10 +59,10 @@ Page {
 
         model: ListModel {
             ListElement { imgSource: "qrc:/files/_temp_sun.jpg"; name: "sun"; flossBrand: "DMC";
-                width: 100; height: 100; flosses: 38; progress: 0.03012}
-            ListElement { imgSource: "qrc:/files/_temp_oleksa.jpg"; name: "oleksa"; flossBrand: "DMC";
-                width: 100; height: 133; flosses: 40; progress: 1.3392}
-            ListElement { imgSource: "qrc:/files/_temp_lake.jpg"; name: "lake"; flossBrand: "DMC";
+                width: 100; height: 100; flosses: 23; progress: 0.0}
+            ListElement { imgSource: "qrc:/files/_temp_oleksa.jpg"; name: "oleksa"; flossBrand: "Anchor";
+                width: 100; height: 133; flosses: 30; progress: 1.375}
+            ListElement { imgSource: "qrc:/files/_temp_lake.jpg"; name: "flower"; flossBrand: "DMC";
                 width: 160; height: 100; flosses: 44; progress: 25.043}
         }
     }

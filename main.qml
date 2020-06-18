@@ -134,23 +134,17 @@ ApplicationWindow {
                 anchors.left: parent.left
                 anchors.bottom: parent.bottom
                 anchors.margins: 20
-                spacing: 10
+                spacing: 0
                 Label {
-                    text: "Cross"
-                    font.italic: true
-                    font.pointSize: 30
+                    text: "Crosster"
+                    font.bold: true
+                    font.pointSize: 40
                     color: backGroundColor
                 }
                 Label {
-                    text: "Stitch"
+                    text: "Cross Stitch Helper"
                     font.italic: true
-                    font.pointSize: 30
-                    color: backGroundColor
-                }
-                Label {
-                    text: "Helper"
-                    font.italic: true
-                    font.pointSize: 30
+                    font.pointSize: 15
                     color: backGroundColor
                 }
             }

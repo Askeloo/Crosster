@@ -1,4 +1,4 @@
-QT += quick quickcontrols2 androidextras core
+QT += quick quickcontrols2 androidextras core sql
 CONFIG += c++14 c++17
 
 # The following define makes your compiler emit warnings if you use
@@ -15,6 +15,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     cellitem.cpp \
     celltablemodel.cpp \
+    dbmanager.cpp \
     flossesmodel.cpp \
     guimanager.cpp \
         main.cpp \
@@ -53,6 +54,7 @@ HEADERS += \
     PatternInfo.h \
     cellitem.h \
     celltablemodel.h \
+    dbmanager.h \
     flossesmodel.h \
     flossitem.h \
     guimanager.h \

@@ -58,7 +58,7 @@ class PatternMaker
 
 
 public:
-    PatternMaker();
+    PatternMaker(QString);
 
     std::tuple<QVector<CellItem*>, QVector<FlossItem*>> createPattern(const PatternInfo&);
 

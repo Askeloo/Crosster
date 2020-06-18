@@ -92,7 +92,7 @@ Page {
         onAccepted: {
             guiManager.name = tfName.text;
             guiManager.imagePath = imgPath;
-            guiManager.flossBrand = "DMC"; //FIXME
+            guiManager.flossBrand = tp2.dmcChecked ? "DMC" : "Anchor"; //FIXME
             guiManager.width = tp2.selWidth;
             guiManager.height = tp2.selHeight;
             guiManager.maxColors = tp2.selColors;
